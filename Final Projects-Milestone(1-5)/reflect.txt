@@ -1,0 +1,376 @@
+/* Student Name         : Ali Riza Sevgili
+   Student Number	: 135200228
+   Student Email	: arsevgili@myseneca.ca
+   Date			: 12/3/2023
+
+
+  "I have done all the coding by myself and only copied the code that my professor provided to complete my workshops and assignments."
+   */
+
+
+__________________________________________________________________Milestone Project Reflection________________________________________________________________________________
+
+
+
+-Project Synopsis-
+
+    The application tracks quantities needed and on hand for items that are shipped to disaster-affected areas 
+and saves this information in a file.
+    Product Types:
+        "Items" are non-perishable goods like blankets and tents.
+        "Perishables" are defined as perishables (food, medicine, etc.) that have expiration dates.
+
+
+-Milestone Analysis-
+
+    #MS1: This course concentrates on fundamental classes such as date handling, error state management (Status class), and a UI mock-up.
+    #MS2: The creation of the Menu and AidMan user interface classes, which essentially set up the system replica.
+    #MS3: iProduct and Item, two fundamental classes, are introduced. iProduct serves as an application's item interface.
+    #MS4: The Perishable class—a specific category of item with handling guidelines and expiration dates—will now be included.
+    #MS5: Completes the AidMan module, integrating every component of the program and implementing the features of the main menu.
+
+
+-Overall Concept &  Details-
+
+
+a-) Dynamic Memory
+Dynamic memory is the memory that an application uses while it is running, obtained from the operating system.
+Static memory is not the same as dynamic memory. The operating system reserves dynamic memory, allocates it, and deallocates it at run-time, 
+whereas it allocates static memory for an application during load.
+We store the address of each allocated region in a pointer variable so that we can keep track of the dynamic memory used by an application.
+We set aside space in static memory for this pointer itself. 
+For as long as we require access to the data in the designated area of dynamic memory, this pointer variable needs to stay in scope.
+
+
+a1-) Dynamic Allocation
+The keyword new followed by [n] allocates contiguous memory dynamically for an array of n elements and returns the address of the array's first element.
+Dynamic allocation of arrays takes the form
+
+pointer = new Type[size];
+
+where Type is the type of the array's elements.For example from Milestone:
+
+
+Status::Status(const Status& other) : code(other.code) {
+    if (other.description != nullptr) {
+        description = new char[strlen(other.description) + 1];
+        strcpy(description, other.description);
+    }
+    else {
+        description = nullptr;
+    }
+
+In this funciton, through "description = new char[strlen(other.description) + 1];"  we dynamically allocate memory for the description member of the new object. 
+We allocate enough memory to store a copy of the other object's description. 
+
+
+a2-) Dynamic Deallocation
+The memory that the corresponding new[] operator had allocated is deallocated when the keyword delete is followed by [] and the address of a dynamically allocated region of memory.
+Dynamic array deallocation looks like this:
+
+delete [] pointer;  where the address of the dynamically allocated array is stored in the pointer. For example from Milestone:
+
+
+Status::~Status() {
+    delete[] description;
+}
+
+The operating system does not receive dynamic memory back from deallocation. Memory that has been deallocated is still available for upcoming dynamic allocations.
+Once the application has taken back control of the system, the operating system only releases all of the dynamically allocated memory.
+
+
+b-) Privacy
+
+Encapsulation is fundamental to data privacy. Client code can access data members defined with the struct keyword. 
+The value of a data member can be altered by any client code. The C++ programming language allows us to mark a member as private in order to restrict access to it within the class.
+Only the members that serve as the class's communication links are exposed to client code in well-designed object-oriented solutions. 
+A well-designed system should not require the client code to have direct access to any member function that carries out internally directed operations or to any data that describes the state of an object. To prohibit external access to any member (data or function), we insert the label private into the definition of our class:
+
+private:
+
+private identifies all subsequent members listed in the class definition as inaccessible.
+
+To enable external access, we insert the label public:
+
+public:
+
+public identifies all subsequent members listed in the class definition as accessible.
+
+For example of Milestone:
+
+class Date {
+public:
+    static const int MAX_YEAR = 2030; ///< The maximum allowed year.
+
+private:
+    int year;       ///< The year of the date.
+    int month;      ///< The month of the date.
+    int day;        ///< The day of the date.
+    Status status;  ///< The status of the date.
+    bool formatted; ///< Flag indicating if the date is formatted.
+
+
+c-Examples of Input and Output
+
+The member functions for controlling the conversion of characters from the input stream into data types stored in system memory and the conversion of data types stored in system memory into characters sent to the output stream are provided by the iostream type, which represents the standard input and output objects such as cin and cout.
+
+cin
+
+An example of the istream type is the cin object. A string of characters is taken from the standard input stream by this object, which then transforms it into a desired type and saves it in system memory.The following general expression can be used to extract characters from the standard input stream:
+
+cin >> identifier  where identifier is the destination variable's name and >> is the extraction operator. For example of Milestone:
+
+std::istream& Item::read(std::istream& istr) {
+...
+.....
+......
+	return istr;
+}
+
+cout
+
+An example of the ostream type is the cout object. When data is copied from system memory into an output stream, an ostream object changes the data into a string of characters.
+The following is the general expression for adding data to the standard output stream:
+
+cout << identifier where << is the insertion operator and identifier is the name of the variable or object that holds the data. For example of Milestone:
+
+std::ostream& Item::display(std::ostream& ostr)const {
+...
+....
+.....
+.......
+	else {
+		ostr << m_state;
+	}
+	return ostr;
+}
+
+
+
+d-Encapsulation
+
+d1-) Construction
+
+ In C++, constructors are special member functions that are automatically called when an object of a class is created. Constructors initialize the object's data members and allocate any necessary resources. There are several types of constructors, including default constructors and parameterized constructors.
+Default Constructor: A default constructor is a constructor that takes no arguments. It is automatically called when an object is created without any initialization values. In the example provided, the Status class has a default constructor that sets the code member to 0 and the description member to a null pointer.
+Parameterized Constructor: A parameterized constructor is a constructor that takes one or more arguments. It allows you to initialize the object with specific values when it is created. In the example, the Status class has a parameterized constructor that takes newCode and newDescription as arguments. It sets the code member to the value of newCode and allocates memory for the description member to store the provided description. If newDescription is null, it sets the description member to a null pointer. For example of Milestone:
+
+	Item::Item() {
+		m_price = 0;
+		m_qty = 0;
+		m_qtyNeeded = 0;
+		m_description = nullptr;
+		m_linear = false;
+		m_sku = 0;
+		m_state.clear();
+	}
+
+d2-) Deconstruction
+
+In C++, a destructor is a special member function that is automatically called when an object is destroyed or goes out of scope. Destructors are responsible for cleaning up resources allocated by the object, such as dynamic memory or open files. They are the counterpart to constructors and ensure that there are no memory leaks or resource leaks.
+Destructor: A destructor is defined with a tilde (~) followed by the class name. It does not take any arguments. In the example, the Status class has a destructor that is responsible for releasing the memory allocated for the description member. It uses the delete[] operator to deallocate the memory, ensuring that there are no memory leaks when the object is destroyed.
+For example of Milestone:
+
+Item::~Item() {
+	delete[] m_description;
+}
+
+
+e-) Member Operators
+
+
+Support for expressions made up of objects is a crucial component of object-oriented programmes. An operator and a group of operands make up an expression. The expression evaluates to a particular type of value. All operators are built-in in languages like C++. The logic for operands of fundamental type is defined in the core language. It is necessary to overload the built-in operators for operands of class type in order to support expressions containing those operands. Declaring a matching function in the class definition and outlining its logic in the implementation file are the necessary steps for overloading an operator.
+
+
+C++ lets us overload the following operators (amongst others):
+
+    Binary arithmetic: + - * / %
+    Assignment (simple and compound): = += -= *= /= %=
+    Unary (pre-fix post-fix plus minus): ++ -- + -
+    Relational: == < > <= >= !=
+    Logical: && || !
+    Insertion, extraction: << >>
+
+
+The signature of an overloaded member operator consists of:
+
+    The operator keyword
+    The operation symbol
+    The type of its right operand, if any
+    The const status of the operation
+
+The compiler binds an expression to the member function with the signature that matches the operator symbol, the operand type and the const status. For example of Milestone:
+
+Perishable& Perishable::operator=(const Perishable& obj) {
+	if (this != &obj) {
+...
+....
+......
+........
+	return *this;
+}
+
+This is the copy assignment operator for the Perishable class.
+It is used to copy the contents of one Perishable object into another.
+The function first checks if the source object obj is not the same as the current object (this) to avoid self-assignment.
+If they are different, it proceeds with the assignment.
+Inside the function, you can find code to copy various data members from obj to this.
+Finally, it returns a reference to the modified this object
+
+    
+std::ostream& operator<<(std::ostream& os, const Status& obj) {
+        if (obj || int(obj) != 0) {
+            os << "ERR#" << int(obj) << ": " << (const char*)(obj);
+        }
+        else {
+            os << (const char*)(obj);
+        }
+        return os;
+    }
+};
+
+std::ostream& operator<<(std::ostream& os, const Status& obj):
+
+    This is the output stream operator for the Status class.
+    It allows you to output a Status object to an output stream, such as std::cout.
+    The function takes an output stream os and a const Status& obj as parameters.
+    It checks if the Status object obj has a non-zero code (indicating an error) or if its description is not empty.
+    If either of these conditions is true, it prints an error message in the format "ERR#CODE: Description".
+    If both conditions are false, it simply prints the description.
+    Finally, it returns the output stream os.
+
+These operator functions are crucial for allowing objects of the respective classes to be assigned to each other (operator=) and to be easily displayed using the output stream (operator<<).
+
+
+f-)Inheritance 
+
+Inheritance is a fundamental concept in object-oriented programming (OOP), and it plays a key role in C++ as well. It allows you to create a new class based on an existing class, inheriting its attributes and behaviors. In C++, the class that is being inherited from is called the "base class" or "parent class," and the class that inherits from the base class is called the "derived class" or "child class." Here's an explanation of the inheritance concept in C++:
+
+    Base Class (Parent Class):
+        The base class is the original class that defines a set of attributes (data members) and behaviors (member functions).
+        It serves as a blueprint for creating objects.
+        The base class can be abstract, meaning it may have pure virtual functions that must be implemented by derived classes.
+
+    Derived Class (Child Class):
+        The derived class is a new class created based on the base class.
+        It inherits the attributes and behaviors (members) of the base class.
+        The derived class can add new attributes and behaviors or modify the inherited ones.
+        It can also override (redefine) base class functions to provide specialized behavior.
+
+    Inheritance Types:
+        C++ supports several types of inheritance, including:
+            Single Inheritance: A derived class inherits from a single base class.
+            Multiple Inheritance: A derived class can inherit from multiple base classes.
+            Multilevel Inheritance: A class can be derived from another derived class, creating a chain of inheritance.
+            Hierarchical Inheritance: Multiple derived classes inherit from a single base class.
+            Hybrid Inheritance: A combination of multiple inheritance types.
+
+    Access Control:
+        In C++, base class members have access specifiers like public, protected, and private.
+        The derived class can access base class members according to their access specifiers:
+            public: The derived class and external code can access these members.
+            protected: The derived class can access these members, but external code cannot.
+            private: Neither the derived class nor external code can access these members.
+
+    Keyword public, protected, private:
+        When deriving a class, you use the access control keywords to specify how the base class members are inherited:
+            public: Base class public members become public members of the derived class.
+            protected: Base class public and protected members become protected members of the derived class.
+            private: Base class members are not directly accessible in the derived class.
+
+    Constructors and Destructors:
+        Constructors and destructors of the base class are also inherited by the derived class.
+        The derived class can call the base class constructor to initialize base class attributes.
+
+    Polymorphism:
+        Inheritance is closely related to polymorphism, a key OOP concept.
+        Polymorphism allows objects of derived classes to be treated as objects of the base class, facilitating code reuse and flexibility.
+
+Inheritance in C++ promotes code reusability, abstraction, and the organization of complex systems into manageable classes. It allows you to create a hierarchy of classes, with each level of the hierarchy adding more specific attributes and behaviors to the classes below it. This hierarchy simplifies the design and maintenance of large software systems.
+
+
+g-) Polymorphism
+
+Polymorphism in object-oriented languages allows selection of behaviour among related types. The third main idea implemented by these languages, after inheritance and encapsulation, is polymorphism. A single identifier can have multiple meanings, which is known as polymorphism. 'of many forms' is what polymorphic signifies. An operation on an object is chosen by a polymorphic language according to the type of the object.
+
+As an illustration of inclusion polymorphism, consider virtual functions. Object-oriented languages use a hierarchy of member functions to implement inclusion polymorphism. A polymorphic object can have any type within the same inheritance hierarchy as its type at any point in its lifetime.
+
+For example of Milestone 5
+
+class iProduct
+{
+public:
+    virtual ~iProduct(); // Virtual destructor for proper cleanup in derived classes.
+
+    // Virtual functions for various product-related operations.
+    virtual int readSku(std::istream& istr);
+    virtual int operator-=(int qty);
+    virtual int operator+=(int qty);
+    virtual operator double() const;
+    virtual operator bool() const;
+
+iProduct::~iProduct()
+{
+}
+
+int iProduct::readSku(std::istream& istr)
+{
+    return 0;
+}
+
+int iProduct::operator-=(int qty)
+{
+    return 0;
+}
+
+int iProduct::operator+=(int qty)
+{
+    return 0;
+}
+
+iProduct::operator double() const
+{
+    return 0;
+}
+
+iProduct::operator bool() const
+{
+    return 0;
+}
+
+Summary:
+
+In this reflection, I provided a comprehensive overview of key concepts and examples related to the Milestone project in C++. The reflection covers various aspects of the project, including dynamic memory management, privacy through encapsulation, input and output handling, member operators, constructors and destructors, inheritance, and polymorphism.
+
+    Dynamic Memory:
+        Explained dynamic memory allocation and deallocation using new and delete operators.
+        Provided examples from the project, such as dynamically allocating memory for description in the Status class.
+
+    Privacy and Encapsulation:
+        Discussed the importance of encapsulation for data privacy.
+        Showed how private members in classes restrict external access.
+        Illustrated with examples from the Date class.
+
+    Input and Output:
+        Explained input and output operations using cin and cout.
+        Demonstrated the use of read and display functions in the Item class.
+
+    Constructors and Destructors:
+        Clarified the role of constructors and destructors in initializing and cleaning up class objects.
+        Presented examples of default and parameterized constructors, as well as destructors in classes like Item and Status.
+
+    Member Operators:
+        Described the concept of overloaded member operators in C++.
+        Provided examples of overloaded operators, including copy assignment and output stream operators in the Perishable and Status classes.
+
+    Inheritance:
+        Explained the concept of inheritance in C++.
+        Covered various types of inheritance, access control, and constructor inheritance.
+        Offered insights into the hierarchical structure of classes in the project.
+
+    Polymorphism:
+        Defined polymorphism and its role in object-oriented programming.
+        Showcased the use of virtual functions and inclusion polymorphism in the iProduct class.
+        Demonstrated the flexibility and extensibility provided by polymorphism.
+
+Overall, this reflection serves as a comprehensive guide to the key concepts and code examples present in the Milestone project, providing a deeper understanding of C++ programming principles and their practical application in a real-world project.

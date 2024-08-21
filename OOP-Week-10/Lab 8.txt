@@ -1,0 +1,165 @@
+Vehicle.h
+
+#include<iostream>
+#include<cstring>
+using namespace std;
+
+class Vehicle
+{
+protected:
+	char* name;
+public:
+	Vehicle(const char* name);
+	virtual void drive() = 0;
+	virtual void decorate() = 0;
+	~Vehicle();
+};
+
+Vehicle.cpp
+
+#define _CRT_SECURE_NO_WARNINGS
+#include "Vehicle.h"
+
+Vehicle::Vehicle(const char* name)
+{
+	this->name = new char[strlen(name) + 1];
+	strcpy(this->name, name);
+}
+Vehicle::~Vehicle()
+{
+	delete[] this->name;
+}
+
+Paint.h
+
+#pragma once
+#include "Vehicle.h"
+
+class Paint : public Vehicle
+{
+protected:
+	char* color;
+public:
+	Paint(const char* name, const char* color);
+	void decorate();
+	void drive();
+	~Paint();
+};
+
+Paint.cpp
+
+#define _CRT_SECURE_NO_WARNINGS
+#include "Paint.h"
+
+Paint::Paint(const char* name, const char* color) : Vehicle(name)
+{
+	this->color = new char[strlen(color) + 1];
+	strcpy(this->color, color);
+}
+void Paint::drive()
+{
+	cout << "Vehicle with " << this->color << " is driving" << endl;
+}
+void Paint::decorate()
+{
+	cout << "Painted with " << this->color << " color" << endl;
+}
+Paint::~Paint()
+{
+	delete[] this->color; 
+}
+
+Car.h
+
+#pragma once
+#include "Paint.h"
+
+class Car : public Paint
+{
+private:
+	char* type;
+public:
+	Car(const char* name, const char* color, const char* type);
+	void drive();
+	void decorate();
+	~Car();
+};
+
+
+Car.cpp
+
+#define _CRT_SECURE_NO_WARNINGS
+#include "Car.h"
+
+Car::Car(const char* name, const char* color, const char* type): Paint(name, color)
+{
+	this->type = new char[strlen(type) + 1];
+	strcpy(this->type, type);
+}
+void Car::drive()
+{
+	cout << "Car with color " << this->color << " is driving" << endl;
+}
+void Car::decorate()
+{
+	cout << this->name << " car is decorated with " << this->color <<" and is a "<< this->type << endl;
+}
+Car::~Car()
+{
+	delete[] this->type;
+}
+
+
+Truck.h
+
+#pragma once
+#include "Paint.h"
+
+class Truck : public Paint
+{
+private:
+	int capacity;
+public:
+	Truck(const char* name, const char* color, int capacity);
+	void drive();
+	void decorate();
+};
+
+Truck.cpp
+
+#include "Truck.h"
+
+Truck::Truck(const char* name, const char* color, int capacity) : Paint(name, color)
+{
+	this->capacity = capacity;
+}
+void Truck::drive()
+{
+	cout << this->name << " truck with " << this->color << " and capacity of " << this->capacity << " is driving" << endl;
+}
+void Truck::decorate()
+{
+	cout << "Truck decorated with " << this->color << " color" << endl;
+}
+
+Source.cpp
+
+#include "Car.h"
+#include "Truck.h"
+
+int main()
+{
+	Car car = Car("Toyota", "Red", "Sedan");
+	car.decorate();
+	car.drive();
+
+	Truck truck = Truck("Hino", "Black", 1000);
+	truck.decorate();
+	truck.drive();
+
+	Vehicle* vehicles[2] = { &car, &truck };
+
+	cout << "\nCalling from parent's pointer..." << endl;
+	vehicles[0]->drive();
+	vehicles[1]->decorate();
+}

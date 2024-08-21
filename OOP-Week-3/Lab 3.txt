@@ -1,0 +1,84 @@
+Vehicle.h
+
+#pragma once
+#ifndef VEHICLE_H
+#define VEHICLE_H
+
+namespace sdds
+{
+	struct Vehicle
+	{
+		char* name;
+		int kms;
+	};
+
+	void load();
+	void display();
+	void sort();
+}
+
+#endif // !VEHICLE_H
+
+
+
+Vehicle.cpp
+
+#include "Vehicle.h"
+#include <iostream>
+namespace sdds
+{
+	Vehicle* vehicle;
+	const int SIZE = 5;
+	void load()
+	{
+
+		vehicle = new Vehicle[SIZE + 1];
+
+		for (int i = 0; i < SIZE; i++)
+		{
+			vehicle[i].name = new char[25];
+			std::cout << "Enter Vehicle Name: ";
+			std::cin >> vehicle[i].name;
+			
+			std::cout << "Enter Vehicle KMS: ";
+			std::cin >> vehicle[i].kms;
+
+			std::cout<<std::endl;
+		}
+
+	}
+	void display()
+	{
+		for (int i = 0; i < SIZE; i++)
+		{
+			std::cout << "Vehicle Name: " << vehicle[i].name << std::endl;
+			std::cout << "Vehicle KMS: " << vehicle[i].kms << std::endl;
+		}
+	}
+	void sort()
+	{
+		int i, j;
+		Vehicle temp;
+		for (i = SIZE - 1; i > 0; i--) {
+			for (j = 0; j < i; j++) {
+				if (vehicle[j].kms > vehicle[j + 1].kms) {
+					temp = vehicle[j];
+					vehicle[j] = vehicle[j + 1];
+					vehicle[j + 1] = temp;
+				}
+			}
+		}
+	}
+}
+
+Source.cpp
+
+#include "Vehicle.h"
+using namespace sdds;
+int main()
+{
+	load();
+	sort();
+	display();
+}
+

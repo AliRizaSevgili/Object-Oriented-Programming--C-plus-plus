@@ -1,0 +1,40 @@
+﻿  Date.cpp
+C:\Users\aliri\source\repos\Milestone-1\Date.cpp(20,22): error C4996: 'localtime': This function or variable may be unsafe. Consider using localtime_s instead. To disable deprecation, use _CRT_SECURE_NO_WARNINGS. See online help for details.
+C:\Users\aliri\source\repos\Milestone-1\Date.cpp(102,19): error C2039: 'getCode': is not a member of 'Status'
+C:\Users\aliri\source\repos\Milestone-1\Status.h(6,7): message : see declaration of 'Status'
+  DateTester.cpp
+C:\Users\aliri\source\repos\Milestone-1\DateTester.cpp(25,19): error C2039: 'state': is not a member of 'Date'
+C:\Users\aliri\source\repos\Milestone-1\Date.h(16,7): message : see declaration of 'Date'
+C:\Users\aliri\source\repos\Milestone-1\DateTester.cpp(38,6): error C2248: 'Date::formatted': cannot access private member declared in class 'Date'
+C:\Users\aliri\source\repos\Milestone-1\Date.h(25,10): message : see declaration of 'Date::formatted'
+C:\Users\aliri\source\repos\Milestone-1\Date.h(16,7): message : see declaration of 'Date'
+C:\Users\aliri\source\repos\Milestone-1\DateTester.cpp(38,6): error C2064: term does not evaluate to a function taking 1 arguments
+C:\Users\aliri\source\repos\Milestone-1\DateTester.cpp(41,6): error C2248: 'Date::formatted': cannot access private member declared in class 'Date'
+C:\Users\aliri\source\repos\Milestone-1\Date.h(25,10): message : see declaration of 'Date::formatted'
+C:\Users\aliri\source\repos\Milestone-1\Date.h(16,7): message : see declaration of 'Date'
+C:\Users\aliri\source\repos\Milestone-1\DateTester.cpp(41,6): error C2064: term does not evaluate to a function taking 1 arguments
+  main.cpp
+C:\Users\aliri\source\repos\Milestone-1\main.cpp(38,11): error C2039: 'Status': is not a member of 'sdds'
+C:\Users\aliri\source\repos\Milestone-1\Utils.h(16,11): message : see declaration of 'sdds'
+C:\Users\aliri\source\repos\Milestone-1\main.cpp(89,17): error C2039: 'Status': is not a member of 'sdds'
+C:\Users\aliri\source\repos\Milestone-1\Utils.h(16,11): message : see declaration of 'sdds'
+C:\Users\aliri\source\repos\Milestone-1\main.cpp(126,19): error C2039: 'state': is not a member of 'Date'
+C:\Users\aliri\source\repos\Milestone-1\Date.h(16,7): message : see declaration of 'Date'
+C:\Users\aliri\source\repos\Milestone-1\main.cpp(139,6): error C2248: 'Date::formatted': cannot access private member declared in class 'Date'
+C:\Users\aliri\source\repos\Milestone-1\Date.h(25,10): message : see declaration of 'Date::formatted'
+C:\Users\aliri\source\repos\Milestone-1\Date.h(16,7): message : see declaration of 'Date'
+C:\Users\aliri\source\repos\Milestone-1\main.cpp(139,6): error C2064: term does not evaluate to a function taking 1 arguments
+C:\Users\aliri\source\repos\Milestone-1\main.cpp(142,6): error C2248: 'Date::formatted': cannot access private member declared in class 'Date'
+C:\Users\aliri\source\repos\Milestone-1\Date.h(25,10): message : see declaration of 'Date::formatted'
+C:\Users\aliri\source\repos\Milestone-1\Date.h(16,7): message : see declaration of 'Date'
+C:\Users\aliri\source\repos\Milestone-1\main.cpp(142,6): error C2064: term does not evaluate to a function taking 1 arguments
+  Status.cpp
+C:\Users\aliri\source\repos\Milestone-1\Status.cpp(10,9): error C4996: 'strcpy': This function or variable may be unsafe. Consider using strcpy_s instead. To disable deprecation, use _CRT_SECURE_NO_WARNINGS. See online help for details.
+C:\Users\aliri\source\repos\Milestone-1\Status.cpp(21,9): error C4996: 'strcpy': This function or variable may be unsafe. Consider using strcpy_s instead. To disable deprecation, use _CRT_SECURE_NO_WARNINGS. See online help for details.
+C:\Users\aliri\source\repos\Milestone-1\Status.cpp(34,13): error C4996: 'strcpy': This function or variable may be unsafe. Consider using strcpy_s instead. To disable deprecation, use _CRT_SECURE_NO_WARNINGS. See online help for details.
+C:\Users\aliri\source\repos\Milestone-1\Status.cpp(52,9): error C4996: 'strcpy': This function or variable may be unsafe. Consider using strcpy_s instead. To disable deprecation, use _CRT_SECURE_NO_WARNINGS. See online help for details.
+  StatusTester.cpp
+C:\Users\aliri\source\repos\Milestone-1\StatusTester.cpp(21,5): error C2653: 'sdds': is not a class or namespace name
+C:\Users\aliri\source\repos\Milestone-1\StatusTester.cpp(72,11): error C2653: 'sdds': is not a class or namespace name
+  Utils.cpp
+  Generating Code...

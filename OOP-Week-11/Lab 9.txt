@@ -1,0 +1,158 @@
+Vehicle.h
+
+#pragma once
+#include <iostream>
+#include <cstring>
+
+using namespace std;
+
+class Vehicle
+{
+private:
+	char* name;
+public:
+	Vehicle(const char* name);
+	Vehicle(const Vehicle& vehicle);
+	Vehicle& operator=(const Vehicle& vehicle);
+	void display();
+	~Vehicle();
+};
+
+Vehicle.cpp
+
+#define _CRT_SECURE_NO_WARNINGS
+#include "Vehicle.h"
+
+Vehicle::Vehicle(const char* name)
+{
+	int size = strlen(name);
+	this->name = new char[size + 1];
+	strcpy(this->name, name);
+}
+Vehicle::Vehicle(const Vehicle& vehicle)
+{
+	int size = strlen(vehicle.name);
+	this->name = new char[size + 1];
+	strcpy(this->name, vehicle.name);
+}
+Vehicle& Vehicle::operator=(const Vehicle& vehicle)
+{
+    if (this != &vehicle)
+    {
+		delete[] this->name;
+		if (vehicle.name)
+		{
+			this->name = new char[strlen(vehicle.name) + 1];
+			strcpy(this->name, vehicle.name);
+		}
+    }
+
+    return *this;
+}
+
+void Vehicle::display()
+{
+	cout << "Name: " << this->name << endl;
+}
+Vehicle::~Vehicle()
+{
+	delete[] this->name;
+}
+
+Car.h
+
+#pragma once
+#include "Vehicle.h"
+
+class Car : public Vehicle
+{
+private:
+	char* type;
+public:
+	Car(const char* name, const char* type);
+	Car(const Car& car);
+	Car& operator=(const Car& car);
+	void display();
+	~Car();
+};
+
+Car.cpp
+
+#define _CRT_SECURE_NO_WARNINGS
+#include "Car.h"
+
+Car::Car(const char* name, const char* type): Vehicle(name)
+{
+    if (name && type)
+    {
+	    this->type = new char[strlen(type) + 1];
+	    strcpy(this->type, type);
+    }
+}
+Car::Car(const Car& car): Vehicle(car)
+{
+    if (car.type)
+    {
+	    this->type = new char[strlen(car.type) + 1];
+	    strcpy(this->type, car.type);
+    }
+}
+
+Car& Car::operator=(const Car& car)
+{
+    if (this != &car)
+    {
+        Vehicle::operator=(car);
+        delete[] this->type;
+
+        if (car.type)
+        {
+            this->type = new char[strlen(car.type) + 1];
+            strcpy(this->type, car.type);
+        }
+    }
+    return *this;
+}
+
+
+void Car::display()
+{
+	Vehicle::display();
+	cout << "Type: " << this->type << endl;
+}
+Car::~Car()
+{
+	delete[] this->type;
+}
+
+Source.cpp
+
+#include "Car.h"
+
+int main() {
+
+    Car car[5] = {
+        Car("Toyota", "Sendan"),
+        Car("Honda", "Jeep"),
+        Car("Suzuki", "SUV"),
+        Car("Ford", "Sedan"),
+        Car("Tesla", "Sedan"),
+    };
+
+    for (int i = 0; i < 5; i++)
+    {
+        car[i].display();
+    }
+
+    cout << "\nTesting Parent Object pointer..." << endl;
+    Vehicle *vehicles[5];
+
+    for (int i = 0; i < 5; i++)
+    {
+        vehicles[i] = &car[i];
+        vehicles[i]->display();
+    }
+    
+    return 0;
+}
+

@@ -1,0 +1,250 @@
+1. cout and cin are used for displaying and taking the inputs
+
+	#include <iostream>
+	using namespace std;
+
+	 int main() {
+	     int i;
+
+	     cout << "Enter an integer : ";
+	     cin >> i;
+	     cout << "You entered " << i << endl;
+	 }
+
+
+
+2. if else if statements can be used to make them a package.
+	
+	In this case only one of the statements will work.
+
+	int main()
+	{
+		int marks;
+
+		cout << "Enter marks: ";
+		cin >> marks;
+
+		if (marks >= 90)
+		{
+			cout << "Your grade is A" << endl;
+		}
+		else if (marks >= 80)
+		{
+			cout << "Your grade is B" << endl;
+		}
+		else if (marks >= 70)
+		{
+			cout << "Your grade is C" << endl;
+		}
+		else if (marks >= 60)
+		{
+			cout << "Your grade is D" << endl;
+		}
+		else if (marks < 60)
+		{
+			cout << "Your grade is F" << endl;
+		}
+
+		return 0;
+	}
+
+3. Multiple conditions can be used in a conditional statement.
+
+	If you want both the conditions to be true, use && operator.
+
+	int main()
+	{
+		int number;
+
+		cout << "Enter a number: ";
+		cin >> number;
+
+		if (number >= 1 && number <= 10)
+		{
+			cout << "Number is between 1 and 10" << endl;
+		}
+		else
+		{
+			cout << "Number is either less than 1 or greater than 10" << endl;
+		}
+	
+		return 0;
+	}
+
+4. While Loop
+
+	In order to iterate through statements, we can use a while loop.
+
+	int main()
+	{
+		int i = 1;
+		while (i <= 10)
+		{
+			cout << i << endl;
+			i++;
+		}
+
+		return 0;
+	}
+
+5. Infinite Loop
+
+	Loops can be infinite
+
+	int main()
+	{
+		while (true)
+		{
+			cout << "hello" << endl;
+		}
+
+		return 0;
+	}	
+
+	You can break the loop by using break statement
+
+	int main()
+	{
+		int number;
+
+		while (true)
+		{
+			cout << "Enter a number (press -1 to quit): ";
+			cin >> number;
+
+			if (number == -1)
+			{
+				break;
+			}
+		}
+
+		return 0;
+	}
+
+6. For Loop
+
+	int main()
+	{
+		for (int i = 1; i <= 10; i++)
+		{
+			cout << i << endl;
+		}	
+
+		return 0;
+	}
+	
+	For loops can be infinite as well
+
+	int main()
+	{
+		int number;
+		for (; ; )
+		{
+			cout << "Enter a number: " ;
+			cin >> number;
+
+			if (number == -1)
+			{
+				break;
+			}
+		}
+
+		return 0;
+	}
+
+7. Functions
+	Functions are used for reusability. Functions can be pre-defined or user-defined.
+
+	It is recommended to keep your main method as simple as possible.
+
+	If we want to reuse part of our code again, we can use functions.
+
+	int main()
+	{
+		string userName, password;
+		cout << "Enter User Name: ";
+		cin >> userName;
+		cout << "Enter Password: ";
+		cin >> password;
+		return 0;
+	}
+
+	In order to keep main method clean and reuse part of the code, functions can be used.
+
+	void login()
+	{
+		string userName, password;
+		cout << "Enter User Name: ";
+		cin >> userName;
+		cout << "Enter Password: ";
+		cin >> password;
+	}
+
+	int main()
+	{
+		login();
+		return 0;
+	}
+
+8. Functions with Parameters.
+
+	The function header consists of 
+		- the function return type
+		- the function name
+		- the function parameter list
+
+	void evenOdd(int number)
+	{
+		if (number %2 == 0)
+		{
+			cout << "Even" << endl;
+		}
+		else
+		{
+			cout << "Odd" << endl;
+		}
+	}
+
+	int main()
+	{
+		int number;
+		cout << "Enter a number: ";
+		cin >> number;
+
+		evenOdd(number);
+		return 0;
+	}
+
+9. Functions
+	Functions are very handy when they return value.
+
+	string EvenOdd(int number)
+	{
+		if (number % 2 == 0)
+		{
+			return "Even";
+		}
+		else
+		{
+			return "Odd";
+		}
+	}
+
+	int main()
+	{
+		cout << EvenOdd(5);
+		return	0;
+	}
+
+	Any return value can be used for functions
+
+	int add(int number1, int number2)
+	{
+		return number1 + number2;
+	}
+
+	int main()
+	{
+		cout << add(5, 6);
+		return	0;
+	}

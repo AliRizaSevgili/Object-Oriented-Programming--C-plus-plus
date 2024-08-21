@@ -1,0 +1,148 @@
+Student.h
+
+
+#include <iostream>
+#include <cstring>
+
+class Student
+{
+private:
+	int id;
+	char* name;
+	int age;
+	char dob[11];
+	bool isValid(int id, const char* name, int age, const char dob[]);
+	void setEmpty();
+	void setName(const char* name);
+	void setValues(int id, const char* name, int age, const char dob[]);
+public:
+	Student();
+	Student(int id, const char* name, int age, const char dob[]);
+	Student(const Student& student);
+	Student& operator=(const Student& student);
+	operator bool()const;
+	~Student();
+	void display(std::ostream& out);
+};
+std::ostream& operator<<(std::ostream& std, Student& student);
+
+
+Student.cpp
+
+#define _CRT_SECURE_NO_WARNINGS
+#include "Student.h"
+
+bool Student::isValid(int id, const char* name, int age, const char dob[])
+{
+	return id > 0 && name && name[0] && age > 0 && strlen(dob) >= 10;
+}
+void Student::setEmpty()
+{
+	this->name = nullptr;
+}
+void Student::setName(const char* name)
+{
+	this->name = new char[strlen(name) + 1];
+	strcpy(this->name, name);
+}
+void Student::setValues(int id, const char* name, int age, const char dob[])
+{
+	if (isValid(id, name, age, dob))
+	{
+		setName(name);
+		this->id = id;
+		this->age = age;
+		strcpy(this->dob, dob);
+	}
+	else
+	{
+		setEmpty();
+	}
+}
+Student::Student()
+{
+	setEmpty();
+	this->id = 0;
+	this->age = 0;
+	strcpy(this->dob, "00-00-0000");
+}
+Student::Student(int id, const char* name, int age, const char dob[])
+{
+	setValues(id, name, age, dob);
+}
+Student::Student(const Student& student)
+{
+	setValues(student.id, student.name, student.age, student.dob);
+}
+Student::operator bool()const
+{
+	return this->name != nullptr;
+}
+Student& Student::operator=(const Student& student)
+{
+	if (this != &student)
+	{
+		delete[] this->name;
+		setValues(student.id, student.name, student.age, student.dob);
+	}
+	return *this;
+}
+Student::~Student()
+{
+	delete[] this->name;
+}
+void Student::display(std::ostream& out)
+{
+	out << "ID: " << this->id << std::endl;
+	out << "Name: " << this->name << std::endl;
+	out << "Age: " << this->age << std::endl;
+	out << "DOB: " << this->dob << std::endl;
+	out << "********************************" << std::endl;
+
+}
+
+std::ostream& operator<<(std::ostream& out, Student& student)
+{
+	student.display(out);
+	return out;
+}
+
+
+main.cpp
+
+#include "Student.h"
+
+void display(Student students[], int size)
+{
+	for (int i = 0; i < size; i++)
+	{
+		std::cout << students[i];
+	}
+}
+
+int main()
+{
+	Student students[] = {
+		{100, "Steve Jobs", 55, "10-12-1955"},
+		{101, "Bill Gates", 65, "11-12-1945"},
+		{102, "Elon Musk", 45, "07-11-1965"},
+		{103, "Warren Buffet", 75, "12-10-1935"},
+		{104, "Jeff Bezos", 60, "01-09-1960"},
+	};
+
+	display(students, 5);
+
+	std::cout << "\nTesting assignment operator...\n" << std::endl;
+	students[0] = students[4];
+
+	display(students, 5);
+
+
+	std::cout << "\nTesting copy constructor...\n" << std::endl;
+	Student test = students[1];
+
+	std::cout << test << std::endl;
+
+
+	return 0;
+}

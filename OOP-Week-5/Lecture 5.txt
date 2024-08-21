@@ -1,0 +1,417 @@
+1. Operator overloading is used to use an operator for performing many functions. For example, a '+' operators is used to add int and double
+
+	adding two integers
+
+	#include<iostream>
+	#include<string>
+	using namespace std;
+
+	int main()
+	{
+		int number1 = 7, number2 = 10;
+
+		int result = number1 + number2;
+
+		cout <<"Result: "<<result<<endl; 
+		return 0;
+	}
+
+	adding two doubles
+
+	#include<iostream>
+	#include<string>
+	using namespace std;
+
+	int main()
+	{
+		double number1 = 7.5, number2 = 10.3;
+
+		double result = number1 + number2;
+
+		cout <<"Result: "<<result<<endl; 
+		return 0;
+	}
+
+2. Overloading << operator to display objects on the console
+
+	Vehicle.h
+
+	#include<iostream>
+	using namespace std;
+	class Vehicle
+	{
+	private:
+		char * name;
+		int kms;
+	public:
+		Vehicle(const char* name, int kms);
+		char * getName() const;
+		int getKms() const;
+		void display();
+	};
+
+	void operator<<(ostream&, Vehicle&);
+
+
+
+	Vehicle.cpp
+
+	#define _CRT_SECURE_NO_WARNINGS
+	#include "Vehicle.h"
+	#include <cstring>
+
+	Vehicle::Vehicle(const char* name, int kms)
+	{
+		this->name = new char[strlen(name) + 1];
+		strcpy(this->name, name);
+		this->kms = kms;
+	}
+	char * Vehicle::getName() const
+	{
+		return name;
+	}
+	int Vehicle::getKms() const
+	{
+		return kms;
+	}
+
+	void Vehicle::display()
+	{
+		std::cout << "Name: " << this->name << std::endl;
+		std::cout << "KMs: " << this->kms << std::endl;
+	}
+	void operator<<(ostream& out, Vehicle& vehicle)
+	{
+		out << "Name: " << vehicle.getName()<<std::endl;
+		out << "KMs: " << vehicle.getKms() << std::endl;
+	}
+
+
+	main.cpp
+
+	#include "Vehicle.h"
+	int main()
+	{
+		Vehicle vehicle = Vehicle("Toyota", 1234);
+		//vehicle.display();
+		std::cout << vehicle;
+	
+
+		return 0;
+	}
+
+	In order to use multiple << operators on one line. main.cpp can be updated to below:
+
+	ostream& operator<<(ostream& output, Vehicle& vehicle)
+	{
+		output << "Name: " << vehicle.getName() << endl;
+		output << "Name: " << vehicle.getKms() << endl;
+		return output;
+	}
+	int main()
+	{
+		Vehicle car1 = Vehicle("Audi", 123);
+		Vehicle car2 = Vehicle("BMW", 123);
+	
+		cout << car1<<car2;
+		return 0;
+	}	
+
+
+4. Overloading Binary Operators (+, - etc)
+
+	Point.h
+
+	class Point
+	{	
+	private:
+		int x, y;
+	public:
+		Point();
+		Point(int x, int y);
+		int getX() const;
+		int getY() const;
+		void setX(int);
+		void setY(int);
+		Point operator+(Point&) const;
+	};
+	
+	Point.cpp
+
+	#include "Point.h"
+
+	Point::Point()
+	{
+		x = 0;
+		y = 0;
+	}
+	Point::Point(int x, int y)
+	{
+		this->x = x;
+		this->y = y;
+	}
+	int Point::getX() const
+	{
+		return x;
+	}
+	int Point::getY() const
+	{
+		return y;
+	}
+	void Point::setX(int x)
+	{
+		this->x = x;
+	}
+	void Point::setY(int y)
+	{
+		this->y = y;
+	}
+
+	Point Point::operator+(Point& point) const
+	{
+		Point temp;
+		temp.x = this->x + point.x;
+		temp.y = this->y + point.y;
+		return temp;
+	}
+
+	main.cpp
+
+	#include "Point.h"
+	#include <iostream>
+
+	int main()
+	{
+		Point p1 = Point(4, 5);
+		Point p2 = Point(6, 7);
+	
+		Point result = p1 + p2;
+
+		std::cout << "(" << p1.getX() << "," << p1.getY() << ") + (" << p2.getX() << "," << p2.getY() << ")= (" << result.getX() << "," << result.getY() << ")" << std::endl;
+	
+		return 0;
+	}
+
+
+5. Helper Functions
+
+	Point.h
+
+	class Point
+	{
+	private:
+		int x, y;
+	public:
+		Point();
+		Point(int x, int y);
+		int getX() const;
+		int getY() const;
+		void setX(int);
+		void setY(int);
+		Point operator+(Point&) const;
+
+	};
+
+	bool areIdentifcal(const Point&, const Point&);
+
+	Point.cpp
+
+	#include "Point.h"
+
+	Point::Point()
+	{
+		x = 0;
+		y = 0;
+	}
+	Point::Point(int x, int y)
+	{
+		this->x = x;
+		this->y = y;
+	}
+	int Point::getX() const
+	{
+		return x;
+	}
+	int Point::getY() const
+	{
+		return y;
+	}
+	void Point::setX(int x)
+	{
+		this->x = x;
+	}
+	void Point::setY(int y)
+	{
+		this->y = y;
+	}
+	
+	Point Point::operator+(Point& point) const
+	{
+		Point temp;
+		temp.x = this->x + point.x;
+		temp.y = this->y + point.y;
+		return temp;
+	}
+	bool areIdentifcal(const Point& p1, const Point& p2)
+	{
+		if (p1.getX() == p2.getX() && p1.getY() == p2.getY())
+		{
+			return true;
+		}
+		return false;
+	}
+
+	main.cpp
+
+
+	#include "Point.h"
+	#include <iostream>
+
+	int main()
+	{
+		Point p1 = Point(4, 5);
+		Point p2 = Point(6, 7);
+	
+		if (areIdentifcal(p1, p2))
+		{
+			std::cout << "Points are identical" << std::endl;
+		}
+		else
+		{
+			std::cout << "Points are not identical" << std::endl;
+		}
+	
+		return 0;
+	}
+
+6. Helper functions can be converted to operator overloading functions as below:
+
+	Point.h
+	
+	//All code in previous example remains the same. Add the below method to it.
+
+	//Global Function
+	bool operator==(const Point&, const Point&);
+
+	Point.cpp
+
+	//All code in previous example remains the same. Add the below method to it.
+
+	bool operator==(const Point& p1, const Point& p2)
+	{
+		if (p1.getX() == p2.getX() && p1.getY() == p2.getY())
+		{
+			return true;
+		}
+		return false;
+	}
+
+	main.cpp
+
+	int main()
+	{
+		Point p1 = Point(4, 5);
+		Point p2 = Point(6, 7);
+	
+		if (p1 == p2)
+		{
+			std::cout << "Points are identical" << std::endl;
+		}
+		else
+		{
+			std::cout << "Points are not identical" << std::endl;
+		}
+	
+		return 0;
+	}
+
+8. Friend functions are used to allow friends of the class to use its private and protected members.
+
+	Point.h
+
+	class Point
+	{
+	private:
+		int x, y, z;
+	public:
+		Point();
+		Point(int x, int y);
+		Point(int x, int y, int z);
+		int getX() const;
+		int getY() const;
+		void setX(int);
+		void setY(int);
+		Point operator+(Point&) const;
+		friend int getZ(Point&);
+
+	};
+
+	int getZ(Point&);
+
+	Point.cpp
+
+	#include "Point.h"
+
+	Point::Point()
+	{
+		x = 0;
+		y = 0;
+	}
+	Point::Point(int x, int y)
+	{
+		this->x = x;
+		this->y = y;
+	}
+	Point::Point(int x, int y, int z)
+	{
+		this->x = x;
+		this->y = y;
+		this->z = z;
+	}
+	int Point::getX() const
+	{
+		return x;
+	}
+	int Point::getY() const
+	{
+		return y;
+	}
+	void Point::setX(int x)
+	{
+		this->x = x;
+	}
+	void Point::setY(int y)
+	{
+		this->y = y;
+	}
+	
+	Point Point::operator+(Point& point) const
+	{
+		Point temp;
+		temp.x = this->x + point.x;
+		temp.y = this->y + point.y;
+		return temp;
+	}
+	
+	int getZ(Point& p1)
+	{
+		return p1.z;
+	}
+	
+
+	main.cpp
+
+
+	#include "Point.h"
+	#include <iostream>
+
+	int main()
+	{
+		Point p1 = Point(4, 5);
+		Point p2 = Point(6, 7);
+	
+		std::cout << getZ(p1) << std::endl;
+	
+		return 0;
+	}
+

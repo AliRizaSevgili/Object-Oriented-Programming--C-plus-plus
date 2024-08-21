@@ -1,0 +1,389 @@
+1. Shallow Copy works great if heap memory is not included for any of the instance variable.
+
+	Point.h
+
+	class Point
+	{
+	private:
+		int x;
+		int y;
+	public:
+		Point();
+		Point(int x, int y);
+		void display();
+	};
+
+	
+	Point.cpp
+
+	#include "Point.h"
+	#include <iostream>
+	Point::Point()
+	{
+		x = 0;
+		y = 0;
+	}
+	Point::Point(int x, int y)
+	{
+		this->x = x;
+		this->y = y;
+	}
+	void Point::display()
+	{
+		std::cout << "(" << x << " , " << y << ")" << std::endl;
+	}
+
+	main.cpp
+
+	#include "Point.h"
+	#include <iostream>
+
+	int main()
+	{
+		Point p1 = Point(5, 7);
+		Point p2 = Point(6, 8);
+
+		std::cout << "Point 1..." << std::endl;
+		p1.display();
+	
+		std::cout << "Point 2..." << std::endl;
+		p2.display();
+
+		Point p3 = p1;
+		std::cout << "Point 3..." << std::endl;
+		p3.display();
+	
+		return 0;
+	}
+
+2. Introducing a variable in the heap to see how Shallow Copy works
+
+	Point.h
+
+	class Point
+	{
+	private:
+		int x;
+		int y;
+		int *z;
+	public:
+		Point();
+		void setValues(int x, int y, int z);
+		void setZ(int z);
+		void display();
+	};
+
+	Point.cpp
+
+	#include "Point.h"
+	#include <iostream>
+	Point::Point()
+	{
+		x = 0;
+		y = 0;
+		z = new int;
+	}
+
+	void Point::setValues(int x, int y, int z)
+	{
+		this->x = x;
+		this->y = y;
+		*this->z = z;
+	}
+	void Point::setZ(int z)
+	{	
+		*this->z = z;
+	}
+
+	void Point::display()
+	{
+		std::cout << "(" << x << " , " << y <<" , "<< *z <<")" << std::endl;
+	}
+
+	main.cpp
+
+	#include "Point.h"
+	#include <iostream>
+
+	int main()
+	{	
+		Point p1;
+		p1.setValues(5, 7, 10);
+
+		std::cout << "Point 1..." << std::endl;
+		p1.display();
+	
+		Point p2 = p1;
+	
+		p1.setZ(100);
+
+		std::cout << "Point 2..." << std::endl;
+		p2.display();
+
+		return 0;
+	}
+
+	Basically in the above case, compiler is automatically creating a copy constructor for us which looks like:
+
+	Point::Point(Point& p)
+	{
+		this->x = p.x;
+		this->y = p.y;
+		this->z = z;
+	}
+
+	The above will make the pointers point to the same memory location in the heap which is why changing one changes the other one as well.
+
+3. Deep Copy helps in copying the heap memory as well 
+
+	Point.h
+
+	class Point
+	{
+	private:
+		int x;
+		int y;
+		int *z;
+	public:
+		Point();
+		Point(Point& p);
+		void setValues(int x, int y, int z);
+		void setZ(int z);
+		void display();
+	};
+
+	Point.cpp
+
+	#include "Point.h"
+	#include <iostream>
+	Point::Point()
+	{
+		x = 0;
+		y = 0;
+		z = new int;
+	}
+	Point::Point(Point& p)
+	{
+		this->x = p.x;
+		this->y = p.y;
+		z = new int;
+		*this->z = *(p.z);
+	}
+
+
+	void Point::setValues(int x, int y, int z)
+	{
+		this->x = x;
+		this->y = y;
+		*this->z = z;
+	}
+	void Point::setZ(int z)
+	{
+		*this->z = z;
+	}
+
+	void Point::display()
+	{
+		std::cout << "(" << x << " , " << y <<" , "<< *z <<")" << std::endl;
+	}
+
+	main.cpp
+
+	#include "Point.h"
+	#include <iostream>
+
+	int main()
+	{
+		Point p1;
+		p1.setValues(5, 7, 10);
+	
+		std::cout << "Point 1..." << std::endl;
+		p1.display();
+	
+		Point p2 = p1;
+		
+		p1.setZ(100);
+
+		std::cout << "Point 2..." << std::endl;
+		p2.display();
+
+		return 0;
+	}
+
+4. using Operator Overloading for Good Design
+
+	Point.h
+
+	#include <iostream>
+	class Point
+	{
+	private:
+		int x;
+		int y;
+		int *z;
+	public:
+		Point();
+		Point(Point& p);
+		void setValues(int x, int y, int z);
+		void setZ(int z);
+		void display(std::ostream& os);
+		~Point();
+	};
+
+	std::ostream& operator<<(std::ostream& os, Point& p);
+
+	Point.cpp
+
+	#include "Point.h"
+
+	Point::Point()
+	{
+		x = 0;
+		y = 0;
+		z = new int;
+	}
+	Point::Point(Point& p)
+	{
+		this->x = p.x;
+		this->y = p.y;
+		z = new int;
+		*this->z = *(p.z);
+	}
+
+
+	void Point::setValues(int x, int y, int z)
+	{
+		this->x = x;
+		this->y = y;
+		*this->z = z;
+	}
+	void Point::setZ(int z)
+	{
+		*this->z = z;
+	}
+
+	Point::~Point()
+	{
+		delete this->z;
+	}
+	void Point::display(std::ostream& os)
+	{
+		os << "(" << x << " , " << y <<" , "<< *z <<")" << std::endl;
+	}
+
+	std::ostream& operator<<(std::ostream& os, Point& p)
+	{
+		p.display(os);
+		return os;
+	}
+
+	main.cpp
+
+	#include "Point.h"
+
+	int main()
+	{
+		Point p1;
+		p1.setValues(5, 7, 10);
+
+		std::cout << "Point 1..." << std::endl;
+		std::cout << p1;
+	
+		Point p2 = p1;
+	
+		p1.setZ(100);
+	
+		std::cout << "Point 2..." << std::endl;
+		std::cout << p2;
+
+		return 0;
+	}
+
+
+
+5. Character arrays are C-style way of dealing with strings
+
+	int main()
+	{
+		
+		char name[25];
+	
+		std::cout << "Enter a name: ";
+		std::cin.getline(name, 20);
+
+		std::cout << name;
+
+		return 0;
+	}
+
+	C++ allows us to use string as another data type which is string class object.
+
+	
+	int main()
+	{
+		
+		std::string name;
+	
+		std::cout << "Enter a name: ";
+		getline(std::cin, name);
+	
+		std::cout << name;
+
+		return 0;
+	}
+
+6. Writing to a file using fstream
+
+	#include "Point.h"
+	#include <fstream>
+	#include<string>
+
+	int main()
+	{
+		
+		std::ofstream file;
+		file.open("sample.txt");
+	
+		std::string word;
+		std::cout << "Enter something to write to a file: ";
+		getline(std::cin, word);
+
+		file << word << std::endl;
+
+		file.close();
+
+		return 0;
+	}
+
+7. Reading from a file using fstream
+
+	#include "Point.h"
+	#include <fstream>
+	#include<string>
+
+	int main()
+	{
+		
+		std::ifstream file;
+		std::string word;
+
+		file.open("sample.txt");
+
+		while (!file.eof())
+		{
+			file >> word;
+			std::cout << word << std::endl;
+		}
+
+		file.close();
+
+		return 0;
+	}
+
+	Another way of reading a file is replacing the above loop as below:
+
+	while (file >> word)
+	{
+		std::cout << word << std::endl;
+	}
+	

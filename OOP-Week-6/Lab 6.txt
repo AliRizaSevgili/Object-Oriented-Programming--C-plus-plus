@@ -1,0 +1,118 @@
+Lab.h
+#include <iostream>
+#include <cstring>
+
+class Lab
+{
+private:
+	char* name;
+	int number;
+	char day;
+public:
+	Lab();
+	Lab(const char* name, int number, char day);
+	~Lab();
+	char* getName();
+	int getNumber();
+	char getDay();
+	bool operator==(Lab& lab);
+	Lab& operator+=(int number);
+	Lab& operator-=(int number);
+	operator bool();
+};
+std::ostream& operator<<(std::ostream& out, Lab& lab);
+
+
+Lab.cpp
+#define _CRT_SECURE_NO_WARNINGS
+#include "Lab.h"
+
+Lab::Lab()
+{
+	this->name = nullptr;
+	this->number = 0;
+	this->day = '\0';
+}
+
+Lab::Lab(const char* name, int number, char day)
+{
+
+	this->name = new char[strlen(name) + 1];
+	strcpy(this->name, name);
+
+	this->number = number;
+	this->day = day;
+}
+Lab::~Lab()
+{
+	if (this->name)
+		delete[] this->name;
+}
+char* Lab::getName()
+{
+	return this->name;
+}
+int Lab::getNumber()
+{
+	return this->number;
+}
+char Lab::getDay()
+{
+	return this->day;
+}
+bool Lab::operator==(Lab& lab)
+{
+	return (strcmp(this->name, lab.name) == 0 && this->number == lab.number && this->day == lab.day);
+}
+Lab& Lab::operator+=(int number)
+{
+	this->number += number;
+	return *this;
+}
+Lab& Lab::operator-=(int number)
+{
+	this->number -= number;
+	return *this;
+}
+Lab::operator bool()
+{
+	return this->number <= 0;
+}
+std::ostream& operator<<(std::ostream& out, Lab& lab)
+{
+	out << "Name: " << lab.getName() << std::endl;
+	out << "Number: " << lab.getNumber() << std::endl;
+	out << "Day: " << lab.getDay() << std::endl;
+	out << "*****************************" << std::endl;
+	return out;
+}
+main.cpp
+#include "Lab.h"
+
+
+int main()
+{
+	Lab labs[] = {
+		{"Programming", 2, 'M'},
+		{"Biology", 1, 'T'},
+		{"Physics", 3, 'F'},
+		{"Chemistry", 0, 'W'},
+		{"OOP", 1, 'U'},
+	};
+
+	for (int i = 0; i < 5; i++)
+	{
+		if (!labs[i])
+		{
+			std::cout << labs[i];
+		}
+	}
+
+	std::cout << "After incrementing..." << std::endl;
+	labs[4] += 1;
+	std::cout << labs[4] << std::endl;
+	std::cout << "After decrementing..." << std::endl;
+	labs[2] -= 1;
+	std::cout << labs[2] << std::endl;
+	return 0;
+}

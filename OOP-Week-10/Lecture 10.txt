@@ -1,0 +1,529 @@
+1. Using an equal operator to copy values would end up throwing an error while cleaning up
+
+	Vehicle.h
+
+	#pragma once
+	#include <iostream>
+	using namespace std;
+	class Vehicle
+	{
+	private:
+		const char* name;
+	public:
+		Vehicle(const char* n);
+		~Vehicle();
+		void display();
+	};
+
+	Vehicle.cpp
+
+	#include "Vehicle.h"
+
+	Vehicle::Vehicle(const char* n)
+	{
+		this->name = new char[strlen(n) + 1];
+		this->name = n;
+	}
+	Vehicle::~Vehicle()
+	{
+		delete[] name;
+		name = nullptr;
+	}
+	void Vehicle::display()
+	{
+		cout << "Name: " << name << endl;
+	}
+
+	main.cpp
+
+	#include "Vehicle.h"
+
+
+	int main()
+	{
+		Vehicle vehicle = Vehicle("Toyota");
+		vehicle.display();
+		return 0;
+	}
+
+
+2. Copy the elements one by one manually
+
+	Vehicle.h
+
+	#pragma once
+	#include <iostream>
+	using namespace std;
+	class Vehicle
+	{
+	private:
+		char* name;
+	public:
+		Vehicle(const char* n);
+		~Vehicle();
+		void display();
+	};
+
+	Vehicle.cpp
+
+	#include "Vehicle.h"
+
+	Vehicle::Vehicle(const char* n)
+	{
+		int size = strlen(n);
+		this->name = new char[size + 1];
+		for (int i = 0; i < size; i++)
+		{
+			this->name[i] = n[i];
+		}
+		this->name[size] = '\0';
+	}
+	Vehicle::~Vehicle()
+	{
+		delete[] name;
+		name = nullptr;
+	}
+	void Vehicle::display()
+	{
+		cout << "Name: " << name << endl;
+	}
+
+	main.cpp
+
+	#include "Vehicle.h"
+
+
+	int main()
+	{
+		Vehicle vehicle = Vehicle("Toyota");
+		vehicle.display();
+		return 0;
+	}
+
+3. strcpy is another way of doing the copy which would avoid such errors
+
+	Vehicle.h
+
+	#pragma once
+	#include <iostream>
+	using namespace std;
+	class Vehicle
+	{
+	private:
+		char* name;
+	public:
+		Vehicle(const char* n);
+		~Vehicle();
+		void display();
+	};
+
+	Vehicle.cpp
+
+	#define _CRT_SECURE_NO_WARNINGS
+	#include "Vehicle.h"
+
+	Vehicle::Vehicle(const char* n)
+	{
+		this->name = new char[strlen(n) + 1];
+		strcpy(this->name, n);
+	}
+	Vehicle::~Vehicle()
+	{
+		delete[] name;
+		name = nullptr;
+	}
+	void Vehicle::display()
+	{
+		cout << "Name: " << name << endl;
+	}
+
+
+	main.cpp
+
+	#include "Vehicle.h"
+
+
+	int main()
+	{
+		Vehicle vehicle = Vehicle("Toyota");
+		vehicle.display();
+		return 0;
+	}
+
+4. Copying an object through a pointer would mean you are making that pointer point to that object is the memory and hence changing anything through that pointer would result in changing that particular object.
+
+	Vehicle.h
+
+	#pragma once
+	#include <iostream>
+	using namespace std;
+	class Vehicle
+	{
+	private:
+		char* name;
+	public:
+		Vehicle(const char* n);
+		~Vehicle();
+		void display();
+		void setName(const char* );
+	};
+
+	Vehicle.cpp
+
+	#define _CRT_SECURE_NO_WARNINGS
+	#include "Vehicle.h"
+
+	Vehicle::Vehicle(const char* n)
+	{
+		this->name = new char[20];
+		strcpy(this->name, n);
+	}
+
+	Vehicle::~Vehicle()
+	{
+		delete[] name;
+		name = nullptr;
+	}
+	void Vehicle::setName(const char * n)
+	{
+		strcpy(this->name, n);
+	}
+	void Vehicle::display()
+	{
+		cout << "Name: " << name << endl;
+	}
+	
+	main.cpp
+
+	#include "Vehicle.h"
+
+	int main()
+	{
+		std::cout << "Vehicle" << std::endl;
+		Vehicle vehicle = Vehicle("Toyota");
+		vehicle.display();
+
+		Vehicle copy = vehicle;
+		copy.setName("Honda");
+		std::cout << "Copy" << std::endl;
+		copy.display();
+
+		std::cout << "Vehicle" << std::endl;
+		vehicle.display();
+		return 0;
+	}
+
+5. Using copy constructor would help coyping the values properly
+
+	Vehicle.h
+
+	#pragma once
+	#include <iostream>
+	using namespace std;
+	class Vehicle
+	{
+	private:
+		char* name;
+	public:
+		Vehicle(const char* n);
+		Vehicle(const Vehicle&);
+		~Vehicle();
+		void display();
+		void setName(const char* );
+	};
+
+	Vehicle.cpp
+
+	#define _CRT_SECURE_NO_WARNINGS
+	#include "Vehicle.h"
+
+	Vehicle::Vehicle(const char* n)
+	{
+		this->name = new char[20];
+		strcpy(this->name, n);
+	}
+	Vehicle::Vehicle(const Vehicle& other)
+	{
+		//this->name = new char[20];
+		int size = strlen(other.name);
+		this->name = new char[size + 1];
+		strcpy(this->name, other.name);
+	}
+	Vehicle::~Vehicle()
+	{
+		delete[] name;
+		name = nullptr;
+	}
+	void Vehicle::setName(const char * n)
+	{
+		strcpy(this->name, n);
+	}
+	void Vehicle::display()
+	{
+		cout << "Name: " << name << endl;
+	}
+
+	main.cpp
+	
+	#include "Vehicle.h"
+
+	int main()
+	{
+		std::cout << "Vehicle" << std::endl;
+		Vehicle vehicle = Vehicle("Toyota");
+		vehicle.display();
+
+		Vehicle copy = vehicle;
+		copy.setName("Honda");
+		std::cout << "Copy" << std::endl;
+		copy.display();
+
+		std::cout << "Vehicle" << std::endl;
+		vehicle.display();
+		return 0;
+	}
+	
+6. Mapping parent parameterized constructor to the child parameterized constructor
+
+Vehicle.h
+
+#include <iostream>
+#include<cstring>
+using namespace std;
+
+class Vehicle
+{
+private:
+	char* name;
+public:
+	Vehicle();
+	Vehicle(const char* name);
+	Vehicle(const Vehicle& vehicle);
+	~Vehicle();
+	void display();
+	void setName(const char* name);
+};
+
+Vehicle.cpp
+
+#define _CRT_SECURE_NO_WARNINGS
+#include "Vehicle.h"
+
+Vehicle::Vehicle()
+{
+	cout << "Default Constructor called for Vehicle" << endl;
+}
+Vehicle::Vehicle(const char* name)
+{
+	int size = strlen(name);
+	this->name = new char[size + 1];
+	strcpy(this->name, name);
+}
+Vehicle::Vehicle(const Vehicle& vehicle)
+{
+	int size = strlen(vehicle.name);
+	this->name = new char[size + 1];
+	strcpy(this->name, vehicle.name);
+}
+void Vehicle::setName(const char* name)
+{
+	strcpy(this->name, name);
+}
+Vehicle::~Vehicle()
+{
+	delete[] this->name; 
+	this->name = nullptr;
+}
+void Vehicle::display()
+{
+	cout << "Name: " << this->name << endl;
+}
+
+Car.h
+
+#include "Vehicle.h"
+
+class Car : public Vehicle
+{
+private:
+	char* type;
+public:
+	Car(const char* name, const char* type);
+	void setType(const char* type);
+	~Car();
+	void display();
+};
+
+Car.cpp
+
+#define _CRT_SECURE_NO_WARNINGS
+#include "Car.h"
+
+Car::Car(const char* name, const char* type) : Vehicle(name)
+{
+	int size = strlen(type);
+	this->type = new char[size + 1];
+	strcpy(this->type, type);
+}
+void Car::setType(const char* type)
+{
+	strcpy(this->type, type);
+}
+Car::~Car()
+{
+	delete[] this->type;
+}
+void Car::display()
+{
+	Vehicle::display();
+	cout << "Type: " << this->type<<endl;
+}
+
+main.cpp
+
+#include "Car.h"
+
+int main()
+{
+	Vehicle vehicle = Vehicle("Toyota");
+	vehicle.display();
+	
+	Car car = Car("Honda", "Sedan");
+	car.display();
+
+	return 0;
+}
+
+7. Using Copy Constructors in Inheritance
+
+Vehicle.h
+
+#include <iostream>
+#include<cstring>
+using namespace std;
+
+class Vehicle
+{
+private:
+	char* name;
+public:
+	Vehicle();
+	Vehicle(const char* name);
+	Vehicle(const Vehicle& vehicle);
+	~Vehicle();
+	void display();
+	void setName(const char* name);
+};
+
+
+
+Vehicle.cpp
+
+
+#define _CRT_SECURE_NO_WARNINGS
+#include "Vehicle.h"
+
+Vehicle::Vehicle()
+{
+	cout << "Default Constructor called for Vehicle" << endl;
+}
+Vehicle::Vehicle(const char* name)
+{
+	int size = strlen(name);
+	this->name = new char[size + 1];
+	strcpy(this->name, name);
+}
+Vehicle::Vehicle(const Vehicle& vehicle)
+{
+	cout << "Vehicle Copy constructor" << endl;
+	int size = strlen(vehicle.name);
+	this->name = new char[size + 1];
+	strcpy(this->name, vehicle.name);
+}
+void Vehicle::setName(const char* name)
+{
+	strcpy(this->name, name);
+}
+Vehicle::~Vehicle()
+{
+	delete[] this->name; 
+	this->name = nullptr;
+}
+void Vehicle::display()
+{
+	cout << "Name: " << this->name << endl;
+}
+
+
+Car.h
+
+#include "Vehicle.h"
+
+class Car : public Vehicle
+{
+private:
+	char* type;
+public:
+	Car(const char* name, const char* type);
+	Car(const Car& car);
+	void setType(const char* type);
+	~Car();
+	void display();
+};
+
+
+Car.cpp
+
+#define _CRT_SECURE_NO_WARNINGS
+#include "Car.h"
+
+Car::Car(const char* name, const char* type) : Vehicle(name)
+{
+	int size = strlen(type);
+	this->type = new char[size + 1];
+	strcpy(this->type, type);
+}
+Car::Car(const Car& car): Vehicle(car)
+{
+	cout << "Car Copy constructor" << endl;
+	int size = strlen(car.type);
+	this->type = new char[size + 1];
+	strcpy(this->type, car.type);
+}
+void Car::setType(const char* type)
+{
+	strcpy(this->type, type);
+}
+Car::~Car()
+{
+	delete[] this->type;
+}
+void Car::display()
+{
+	Vehicle::display();
+	cout << "Type: " << this->type<<endl;
+}
+
+
+Source.cpp
+
+#include "Car.h"
+
+int main()
+{
+	Vehicle vehicle = Vehicle("Toyota");
+	vehicle.display();
+	
+	Car car = Car("Honda", "Sedan");
+	car.display();
+
+	cout << "Sedan Object" << endl;
+	Car suv = car;
+	suv.setType("SUV");
+	suv.display();
+
+	cout << "Original Car Object" << endl;
+	car.display();
+
+	return 0;
+}

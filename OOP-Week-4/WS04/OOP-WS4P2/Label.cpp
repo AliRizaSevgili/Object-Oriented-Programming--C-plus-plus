@@ -1,0 +1,113 @@
+/***********************************************************************
+// OOP244 Workshop #4 DIY (part 2): tester program
+// Student Name     : Ali Riza Sevgili
+   Student Number	: 135200228
+   Student Email	: arsevgili@myseneca.ca
+   Date			    : 10/7/2023
+   > I have done all the coding by myself and only copied the code that my professor provided to complete my workshops and assignments.
+// File  main.cpp
+// Version 1.0
+// Author  Fardad Soleimanloo
+// Description
+//
+// Revision History
+// -----------------------------------------------------------
+// Name                 Date            Reason
+***********************************************************************/
+#define _CRT_SECURE_NO_WARNING
+#include <iostream>
+#include <string.h>
+#include "Label.h"
+#include "LabelMaker.h"
+
+using namespace std;
+
+namespace sdds {
+
+    Label::Label() {
+
+        strcpy(frame, defaultFrame);
+        onelineText = nullptr;
+    }
+
+    Label::Label(const char* frameArg)
+    {
+        strcpy(frame, frameArg);
+        onelineText = nullptr;
+    }
+
+    Label::Label(const char* frameArg, const char* content)
+    {
+        strcpy(frame, frameArg);
+
+        if (strlen(content) < 71) {
+            onelineText = new char[strlen(content) + 1];
+            strcpy(onelineText, content);
+        }
+    }
+    //Destructor
+    Label::~Label()
+    {
+        if (onelineText) {
+            delete[] onelineText;
+            onelineText = nullptr;
+        }
+
+    }
+
+    std::istream& Label::readLabel()
+    {
+        char temp[71];
+        cout << "> ";
+        cin.getline(temp, 71);
+        if (cin.fail()) cin.ignore(1000, '\n');
+        text(temp);
+        return cin;
+    }
+
+
+    std::ostream& Label::printLabel() const
+    {
+
+        if (onelineText != nullptr) {
+            size_t middleSpace = strlen(onelineText);
+
+            cout << frame[0];
+            cout.fill(frame[1]);
+            cout.width(middleSpace + 3);
+            cout << frame[2] << endl;
+
+            cout << frame[7];
+            cout.fill(' ');
+            cout.width(middleSpace + 3);
+            cout << frame[3] << endl;
+
+            cout << frame[7];
+            cout.width(middleSpace + 1);
+            cout << onelineText;
+            cout << " " << frame[3] << endl;
+
+            cout << frame[7];
+            cout.fill(' ');
+            cout.width(middleSpace + 3);
+            cout << frame[3] << endl;
+
+            cout << frame[6];
+            cout.fill(frame[5]);
+            cout.width(middleSpace + 3);
+            cout << frame[4];
+        }
+
+        return cout;
+    }
+
+    Label& Label::text(const char* content) {
+        if (onelineText != nullptr) {
+            delete[] onelineText;
+        }
+        onelineText = new char[strlen(content) + 1];
+        strcpy(onelineText, content);
+        return *this;
+    }
+
+}

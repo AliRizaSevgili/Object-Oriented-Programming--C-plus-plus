@@ -1,0 +1,321 @@
+1. Namespaces
+
+A namespace is a scope for the entities that it encloses. Scoping rules avoid identifier conflicts across different namespaces.
+
+	#include <iostream>
+	using namespace std;
+
+	namespace car
+	{
+		void drive()
+		{
+			cout << "Car is driving" << endl;
+		}
+	}
+
+	using namespace car;
+
+	int main()
+	{
+		drive();
+		return 0;
+	}
+
+Using another namespace with same method inside might create confusion
+
+	#include <iostream>
+	using namespace std;
+
+	namespace car
+	{
+		void drive()
+		{
+			cout << "Car is driving" << endl;
+		}
+	}
+
+	namespace truck
+	{
+		void drive()
+		{
+			cout << "Truck is driving" << endl;
+		}
+	}
+
+	using namespace car;
+	using namespace truck;
+
+	int main()
+	{
+		drive();
+		return 0;
+	}
+
+This problem can be solved using scope resolution operator
+
+	#include <iostream>
+	using namespace std;
+
+	namespace car
+	{
+		void drive()
+		{
+			cout << "Car is driving" << endl;
+		}
+	}
+
+	namespace truck
+	{
+		void drive()
+		{
+			cout << "Truck is driving" << endl;
+		}
+	}
+
+	using namespace car;
+	using namespace truck;
+
+	int main()
+	{
+		car::drive();
+		truck::drive();
+		return 0;
+	}
+
+2. Modular Programming
+
+	Transaction.h
+
+	struct Transaction
+	{
+		int account;
+		char type;
+		double amount;
+	};
+
+	void enterDetails(struct Transaction* tr);
+	void displayDetails(struct Transaction* tr);
+
+	Transaction.cpp
+
+	#include "Transaction.h"
+	#include <iostream>
+
+	using namespace std;
+
+	void enterDetails(struct Transaction* tr)
+	{
+		cout << "Enter Account Number: ";
+		cin >> tr->account;
+		cout << "Enter Account Type: ";
+		cin >> tr->type;
+		cout << "Enter Amount: ";
+		cin >> tr->amount;
+	}	
+
+	void displayDetails(struct Transaction* tr)
+	{
+		cout << "Account Number: "<<tr->account;
+		cout << "Account Type: "<<tr->type;
+		cout << "Amount: "<<tr->amount;
+	}
+
+	Main.h
+
+	#define NO_OF_TRANSACTIONS 3
+
+	Main.cpp
+
+	#include "Main.h"
+	#include "Transaction.h"
+
+	int main()
+	{
+		struct Transaction tr;
+
+		for (int i = 0; i < NO_OF_TRANSACTIONS; i++)
+		{
+			enterDetails(&tr);
+		}
+
+		for (int i = 0; i < NO_OF_TRANSACTIONS; i++)
+		{
+			displayDetails(&tr);
+		}
+		return 0;
+	}
+
+3. Lets create another use case for Student struct this time
+
+#include <iostream>
+using namespace std;
+
+struct Student
+{
+	char name[10];
+	int age;
+};
+
+void enterDetails(struct Student* st)
+{
+	cout << "Enter student name: ";
+	cin >> st->name;
+	cout << "Enter age: ";
+	cin >> st->age;
+}
+
+void displayDetails(struct Student* st)
+{
+	cout << "Student name: "<<st->name<<endl;
+	cout << "Age: " <<st->age<<endl;
+}
+
+int main()
+{
+	struct Student st[3];
+
+	for (int i = 0; i < 3; i++)
+	{
+		enterDetails(&st[i]);
+	}
+	for (int i = 0; i < 3; i++)
+	{
+		displayDetails(&st[i]);
+	}
+	
+	return 0;
+}
+
+The above program can be improved by doing the following
+
+#include <iostream>
+using namespace std;
+
+#define NUM 3
+struct Student
+{
+	char name[10];
+	int age;
+};
+
+void enterDetails(struct Student* st)
+{
+	cout << "Enter student name: ";
+	cin >> st->name;
+	cout << "Enter age: ";
+	cin >> st->age;
+}
+
+void displayDetails(struct Student* st)
+{
+	cout << "Student name: "<<st->name<<endl;
+	cout << "Age: " <<st->age<<endl;
+}
+
+void display(struct Student * st)
+{
+	for (int i = 0; i < NUM; i++)
+	{
+		displayDetails(&st[i]);
+	}
+}
+
+int main()
+{
+	struct Student st[NUM];
+
+	for (int i = 0; i < NUM; i++)
+	{
+		enterDetails(&st[i]);
+	}
+
+	display(st);
+	
+	
+	return 0;
+}
+
+4. Above program can be converted in Modular program as below
+
+Student.h
+
+#pragma once
+#include <iostream>
+using namespace std;
+#define NUM 3
+
+struct Student
+{
+	char name[10];
+	int age;
+};
+
+void enterDetails(struct Student* st);
+void displayDetails(struct Student* st);
+void display(struct Student* st);
+bool searchStudent(struct Student* st, const char* n);
+
+
+Student.cpp
+
+#include "Student.h"
+
+void enterDetails(struct Student* st)
+{
+	cout << "Enter student name: ";
+	cin >> st->name;
+	cout << "Enter age: ";
+	cin >> st->age;
+}
+
+void displayDetails(struct Student* st)
+{
+	cout << "Student name: " << st->name << endl;
+	cout << "Age: " << st->age << endl;
+}
+
+void display(struct Student* st)
+{
+	for (int i = 0; i < NUM; i++)
+	{
+		displayDetails(&st[i]);
+	}
+}
+bool searchStudent(struct Student* st, const char* n)
+{
+	for (int i = 0; i < NUM; i++)
+	{
+		if (strcmp(st[i].name, n) == 0)
+		{
+			return true;
+		}
+	}
+	return false;
+}
+
+Source.cpp
+
+#include "Student.h"
+
+int main()
+{
+	struct Student st[NUM];
+
+	for (int i = 0; i < NUM; i++)
+	{
+		enterDetails(&st[i]);
+	}
+
+	display(st);
+	if (searchStudent(st, "Bill"))
+	{
+		cout << "Student Found" << endl;
+	}
+	else
+	{
+		cout << "Student Not Found" << endl;
+	}
+	
+	
+	return 0;
+}

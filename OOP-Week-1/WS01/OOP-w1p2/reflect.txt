@@ -1,0 +1,19 @@
+/* Student Name         : Ali Riza Sevgili
+   Student Number	: 135200228
+   Student Email	: arsevgili@myseneca.ca
+   Date			: 09/18/2023
+
+   "I have done all the coding by myself and only copied the code that my professor provided to complete my workshops and assignments."
+   */
+
+-REFLECTION PART-
+
+ In this presentation, I would like to explain some vital parts of this workshop: what kind of part of the workshop is hard to figure out, how to handle it, etc.
+
+ To begin with, one of the important things is declaration and definition because those are used while creating modular codes involving header files and implementation files. The declaration simply tells the compiler how to interpret the entity's identifier, so the declaration explains what the function does instead of giving more details about the function. The declaration process is carried out in the header file, so it can avoid repetition over and over in the program, so it is useful for using memory. On the other hand, the definition is a different process that explains how to run the function and what the structures of the function are, so the definition part says the content of the function line by line that's why the definition part stays in the core.cpp file which can be described as an implementation file, therefore I created header files and other source files for this purpose on Workshop-Part1 and Part2, especially, since part1 is based on creating header files and other implementation modules in the program.
+Moreover, multiple declarations may occur when many header files are included in a single implementation file. If some of the declarations are also definitions, the translation unit might have several definitions. The one-definition rule must not be broken by any translation unit. Our header files must be created to adhere to this principle.
+
+ In addition, I use the fopen and fclose functions which are used in order to open and read files after closing in order to avoid memory leaks, so they should be used together. 
+"FILE* file = fopen(fileName, "r")" is a declaration of fopen function in my code. If the file is accessible and readable, this funciton works, otherwise gives an error. After completing the reading, the program needs to go back begining of the file, in this case, rewind(file) is used in my code because it can be useful when multiple readings require it, so I used this one as well.
+
+ To sum up, as ı mentioned in above, most of my time was spent on those features of the C++ language regarding Workshop-1. 

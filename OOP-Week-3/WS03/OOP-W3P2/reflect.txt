@@ -1,0 +1,43 @@
+/* Student Name         : Ali Riza Sevgili
+   Student Number	: 135200228
+   Student Email	: arsevgili@myseneca.ca
+   Date			: 10/01/2023
+
+   "I have done all the coding by myself and only copied the code that my professor provided to complete my workshops and assignments."
+   */
+
+-REFLECTION PART-
+
+ In this presentation, I would like to explain some vital parts of this workshop: what kind of part of the workshop is hard to figure out, how to handle it, etc. This presentation touches upon a class, encapsulation of data within the class, creating objects of class type, and managing dynamic memory.
+
+ To begin with, one of the important learned concepts is class definition  which is used for class Train as :
+
+class Train {
+    char* trName;
+    int numPassenger;
+    int departureTime;
+    //...
+};
+
+In this class, I used data encapsulation in order to keep some private data unaccessible from public users, this is quite important regarding private data rules for every country in case of creating a program that is related to keeping private personal data. For example:
+
+//...
+private:
+    char* trName;
+    int numPassenger;
+    int departureTime;
+
+In addition, dynamic memory management is quite vital feature for my program because it avoids possible memory leaks that cause crashing on the program. Allocated and deallocated memory dynamically using new and delete operators, preventing memory leaks. For Example:
+
+char* oldName = new char[strlen(this->trName) + 1];
+//...
+delete[] oldName;
+
+On the other hand, I encountered an issue where the output was printed twice time during the utilization of the transfer method, that's why I used a temporary array to concatenate names and allocated new memory space, after that, I set free the old memory space to avoid possible memory leak. For example:
+
+char* oldName = new char[strlen(this->trName) + 1];
+// Concatenation and memory allocation...
+delete[] oldName;
+
+
+To sum up, as I mentioned above, most of my time was spent on those features of the C++ language regarding Workshop-3. 

@@ -1,0 +1,158 @@
+Vehicle.h
+
+#include <iostream>
+#include<cstring>
+using namespace std;
+
+class Vehicle
+{
+private:
+	char* type;
+	int capacity;
+protected:
+	void setDefaults();
+	char *getType();
+	int getCapacity();
+public:
+	Vehicle();
+	Vehicle(const char* type, int capacity);
+	int operator+=(int value);
+	operator bool();
+	std::ostream& display(std::ostream& ostr = std::cout);
+	~Vehicle();
+};
+std::ostream& operator<<(std::ostream& out, Vehicle& vehicle);
+
+Vehicle.cpp
+
+#define _CRT_SECURE_NO_WARNINGS
+#include "Vehicle.h"
+
+void Vehicle::setDefaults()
+{
+	this->type = new char[8];
+	strcpy(this->type, "Vehicle");
+	this->capacity = 30;
+}
+char* Vehicle::getType()
+{
+	return this->getType();
+}
+int Vehicle::getCapacity()
+{
+	return this->capacity;
+}
+Vehicle::Vehicle()
+{
+	setDefaults();
+}
+Vehicle::Vehicle(const char* type, int capacity)
+{
+	if (strcmp(type, "Bus")!=0 || capacity < 0)
+	{
+		setDefaults();
+	}
+	else
+	{
+		this->type = new char[strlen(type) + 1];
+		strcpy(this->type, type);
+		this->capacity = capacity;
+	}
+}
+Vehicle::~Vehicle()
+{
+	delete[] this->type;
+}
+int Vehicle::operator+=(int value)
+{
+	if ((value + this->capacity) > 40)
+	{
+		cout << "Cannot load more passengers than capacity" << endl;
+		this->capacity = 40;
+	}
+	else
+	{
+		this->capacity += value;
+	}
+	return this->capacity;
+}
+Vehicle::operator bool()
+{
+	return this->capacity > 0;
+}
+std::ostream& Vehicle::display(std::ostream& out)
+{
+	if (*this)
+	{
+		out << "Type: " << this->type << endl;
+		out << "Capacity: " << this->capacity << endl;
+		out << "*****************************" << endl;
+	}
+	return out;
+}
+std::ostream& operator<<(std::ostream& out, Vehicle& vehicle)
+{
+	return vehicle.display(out);
+}
+
+Bus.h
+
+#include "Vehicle.h"
+
+class Bus : public Vehicle
+{
+private:
+	char* name;
+public:
+	Bus(const char* name, const char * type, int capacity);
+	int operator+=(int value);
+	void display();
+	~Bus();
+};
+
+Bus.cpp
+
+#define _CRT_SECURE_NO_WARNINGS
+#include "Bus.h"
+
+Bus::Bus(const char* name, const char* type, int capacity): Vehicle(type, capacity)
+{
+	this->name = new char[strlen(name) + 1];
+	strcpy(this->name, name);
+}
+int Bus::operator+=(int value)
+{
+	return Vehicle::operator+=(value);
+}
+void Bus::display()
+{
+	cout << "Name: " << this->name << endl;
+	Vehicle::display();
+}
+Bus::~Bus()
+{
+	delete[] this->name;
+}
+
+main.cpp
+
+#include "Bus.h"
+
+int main()
+{
+	Bus buses[2] = {
+		Bus("School Bus", "Bus", 30),
+		Bus("Passenger Bus","Truck", 39)
+	};
+
+	buses[0].display();
+	buses[1].display();
+
+	buses[0] += 1;
+	buses[1] += 5;
+		
+	buses[0].display();
+	buses[1].display();
+
+	return 0;
+}

@@ -1,0 +1,47 @@
+#include <iostream>
+
+
+template <typename arrayType, typename keyType>
+int* select(const arrayType array[], const keyType& key, size_t size) {
+
+	int* indices = new int[size + 1];
+	int count = 0;
+
+	for (size_t i = 0; i < size; i++) {
+		if (array[i] == key) {
+			indices[count] = static_cast<int>(i);
+			count++;
+		}
+	}
+
+	indices[count] = -1;
+
+	return indices;
+}
+
+template <typename arrayType>
+void display(const arrayType array[], const int* indices) {
+
+	if (indices != nullptr && indices[0] != -1) {
+		for (int i = 0; indices[i] != -1; i++) {
+			std::cout << array[indices[i]] << "\t";
+		}
+	}
+	else {
+		std::cout << "Empty Selection";
+	}
+}
+
+int main() {
+
+	int intArray[] = { 1, 2, 3, 2, 4, 2, 5 };
+	int key = 2;
+
+	int* indices = select(intArray, key, 7);
+
+	display(intArray, indices);
+
+	delete[] indices;
+
+	return 0;
+}

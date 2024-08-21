@@ -1,0 +1,36 @@
+/* Student Name         : Ali Riza Sevgili
+   Student Number	: 135200228
+   Student Email	: arsevgili@myseneca.ca
+   Date			: 11/27/2023
+
+   "I have done all the coding by myself and only copied the code that my professor provided to complete my workshops and assignments."
+   */
+
+REFLECTION PART - Workshop 9
+
+I studied advanced C++ object-oriented programming ideas at this workshop, with an emphasis on polymorphism, class inheritance, and dynamic memory management. Working with graduate and student classes to illustrate these ideas was part of the workshop.
+
+First and foremost, class inheritance was important. I got experience with code reuse and creating hierarchical relationships by expanding the Student class to build a Graduate class. Understanding how derived classes inherit traits and behaviours from base classes was made easier with the help of this. For example:
+
+
+class Graduate : public Student {
+    // ...
+};
+
+Another key lesson was the application of polymorphism. It was difficult but enlightening to implement virtual functions and see how they enable dynamic binding in derived classes. For instance, in Graduate, overriding the display() method gave users hands-on practise with polymorphism:
+
+
+
+virtual void display() const override;
+
+The workshop also included dynamic memory management as a critical component. To prevent memory leaks and guarantee resource safety, the constructors and destructors of the Graduate and Student classes had to handle memory for dynamically allocated strings appropriately. As example:
+
+
+
+char* m_name = new char[strlen(studentName) + 1];
+// ...
+delete[] m_name;
+
+Nevertheless, I encountered difficulties with deep copying within the assignment operator and copy constructor. It was important to take care to ensure that each object had a unique copy of dynamically created memory in order to avoid shallow copying problems.
+
+In summary, Workshop 9 was a rigorous learning experience that improved my comprehension of C++ OOP concepts including inheritance, polymorphism, and dynamic memory management. It needed close attention to detail, particularly when it came to resource management and comprehending the relationships between base classes and derived classes.

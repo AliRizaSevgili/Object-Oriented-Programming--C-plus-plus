@@ -1,0 +1,30 @@
+/***********************************************************************
+// OOP244 Workshop #4 DIY (part 2): tester program
+// Student Name     : Ali Riza Sevgili
+   Student Number	: 135200228
+   Student Email	: arsevgili@myseneca.ca
+   Date			    : 10/7/2023
+   > I have done all the coding by myself and only copied the code that my professor provided to complete my workshops and assignments.
+// File  main.cpp
+// Version 1.0
+// Author  Fardad Soleimanloo
+// Description
+//
+// Revision History
+// -----------------------------------------------------------
+// Name                 Date            Reason
+***********************************************************************/
+
+
+
+In this workshop, I've learned some important things about C++ programming. 
+I now understand Constructors, which help set up objects when they're created. 
+Destructors are also crucial; they tidy up resources when objects are no longer needed.
+I've also picked up skills in using Pointers, which are like signposts for data in memory.
+
+Moreover, I've become comfortable with basic string operations like copying (with strcpy),
+finding lengths (with strlen), and getting input (with cin.getline). 
+These are really useful for working with text in C++.
+This workshop has given me practical knowledge and skills that 
+
+I can use in many different programming situations, making me more confident in C++ and object-oriented programming overall.

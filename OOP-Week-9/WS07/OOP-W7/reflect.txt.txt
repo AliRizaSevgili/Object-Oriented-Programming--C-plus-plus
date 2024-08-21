@@ -1,0 +1,31 @@
+/***********************************************************************
+// OOP244 Workshop #7 Lab
+// Student Name     	: Ali Riza Sevgili
+   Student Number	: 135200228
+   Student Email	: arsevgili@myseneca.ca
+   Date			: 11/12/2023
+   > I have done all the coding by myself and only copied the code that my professor provided to complete my workshops and assignments.
+
+// Version 1.0
+// Author  Fardad Soleimanloo
+// Description
+//
+// Revision History
+// -----------------------------------------------------------
+// Name                 Date            Reason
+***********************************************************************/
+
+In this presentation, I would like to explain some vital parts of this workshop: what kind of part of the workshop is hard to figure out, how to handle it, etc. This presentation touches upon 
+
+ To begin with, one of the important learned concepts is on understanding the relationship between base and derived classes's features of C++ language. The main modules are the Container and Pack which offer a useful perspective on inheritance and method in object-oriented programming.
+
+The Pack class, derived from the Container, illustrated inheritance brilliantly. For instance, in the constructor 
+
+Pack::Pack(const char* content, int size, double unitSize, int numUnits), 
+
+the call to the base class Container constructor integrates inherited properties, showing inheritance in action.
+
+On the other hand, The Pack class redefines certain functions from Container, exemplifying method shadowing.
+Pack::print(std::ostream& os) const, the function not only calls the base class's print method but also adds its unique implementation, demonstrating how derived classes can extend base class functionalities
+
+To sum up, One challenge was ensuring that the shadowed methods in Pack correctly utilized and extended the functionalities of Container. This required a deep understanding of how inheritance and method overriding work in C++. Additionally, managing the balance between leveraging inherited methods and adding new functionalities in Pack was a valuable learning experience.

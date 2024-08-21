@@ -1,0 +1,314 @@
+1. Member functions are used for working with structures and classes. They can be:
+
+	queried - reporting or reading
+	modifiers - for mutating or modifying
+	special = for creating and destroying objects
+
+
+2. Creating a struct with a member function for quering:
+
+	Student.h
+
+	#pragma once
+	#include <iostream>
+	struct Student
+	{
+		char* name;
+		int age;
+
+		void display() const;
+	};
+
+	Only declaration of function goes in Student.h
+
+	Student.cpp
+
+	#include "Student.h"
+
+
+	void Student::display() const
+	{
+		std::cout << "Name: " << name<<std::endl;
+		std::cout << "Age: " << age;
+	}
+	
+
+	main.cpp
+
+	#define _CRT_SECURE_NO_WARNINGS
+	#include "Student.h"
+	#include <cstring>
+
+	int main()
+	{
+		Student student;
+		student.name = new char[25];
+		std::cout << "Enter Student name: ";
+		std::cin >> student.name;
+		std::cout << "Enter Student Age: ";
+		std::cin >> student.age;
+
+		student.display();
+	}
+
+3. Global Functions and Member functions
+
+	Global functions can have same names as member functions but accessed differently
+	
+	Student.h
+
+	#pragma once
+	#include <iostream>
+	struct Student
+	{
+		char* name;
+		int age;
+
+		void display() const;
+	};
+
+	void display();
+
+	Student.cpp
+
+	#include "Student.h"
+
+
+	void Student::display() const
+	{
+		std::cout << "Name: " << name<<std::endl;
+		std::cout << "Age: " << age<<std::endl;
+	}
+
+
+	void display()
+	{
+		std::cout << "I am a global function" << std::endl;
+	}
+
+	main.cpp
+
+	#define _CRT_SECURE_NO_WARNINGS
+	#include "Student.h"
+	#include <cstring>
+
+	int main()
+	{
+		Student student;
+		student.name = new char[25];
+		std::cout << "Enter Student name: ";
+		std::cin >> student.name;
+		std::cout << "Enter Student Age: ";
+		std::cin >> student.age;
+
+		student.display();
+		display();
+	}
+
+4. Privacy
+
+	Access Modifiers are used to prevent access to the data
+
+	private: used to keep data inaccessible
+	public: used to keep data accessible
+
+	Student.h
+
+	#pragma once
+	#include <iostream>
+	struct Student
+	{
+		private:
+			char* name;
+			int age;
+		public:
+		
+		void display() const;
+	};
+
+	void display();
+
+	Both name and age are not accessible outside the struct.
+
+	Student.cpp
+
+	#include "Student.h"
+
+	void Student::display() const
+	{
+		std::cout << "Name: "<<name<<std::endl;
+		std::cout << "Age: "<<age<<std::endl;
+	}
+
+	display function can still access private variables (members) since it is part of the struct.
+
+	main.cpp
+
+	#include "Student.h"
+
+	int main()
+	{
+		Student std;
+		std.name = "Steve"; // will produce an error.
+		std.display();
+	}
+
+5. Classes
+
+	Normally classes are used in C++ to implement object oriented programming concepts
+
+	Student.h
+
+	#pragma once
+	#include <iostream>
+	class Student	
+	{
+	public:
+		char* name;
+		int age;
+
+		void display() const;
+	};
+
+	void display();
+
+	
+	Student.cpp
+
+	#include "Student.h"
+
+
+	void Student::display() const
+	{
+		std::cout << "Name: " << name<<std::endl;
+		std::cout << "Age: " << age<<std::endl;
+	}
+
+
+	void display()
+	{
+		std::cout << "I am a global function" << std::endl;
+	}
+
+	main.cpp
+
+	#define _CRT_SECURE_NO_WARNINGS
+	#include "Student.h"
+	#include <cstring>
+
+	int main()
+	{
+		Student student;
+		student.name = new char[25];
+		std::cout << "Enter Student name: ";
+		std::cin >> student.name;
+		std::cout << "Enter Student Age: ";
+		std::cin >> student.age;
+
+		student.display();
+		display();
+	}
+
+	By default all the members of a class are private.
+
+6. Good to use Getters and Setters for each member separately.
+
+	Student.h
+
+	#pragma once
+	#include <iostream>
+	class Student
+	{
+	private:
+		char* name;
+		int age;
+	public:
+		char* getName();
+		int getAge();
+		void setName(char* n);
+		void setAge(int a);
+		void display() const;
+	};
+
+	void display();
+
+	Student.cpp
+
+	#define _CRT_SECURE_NO_WARNINGS
+	#include "Student.h"
+
+	void Student::display() const
+	{
+		std::cout << "Name: " << name<<std::endl;
+		std::cout << "Age: " << age<<std::endl;
+	}
+
+	char* Student::getName()
+	{
+		return name;
+	}
+	int Student::getAge()
+	{
+		return age;
+	}
+	void Student::setName(char* n)
+	{
+		name = new char[25];
+		strcpy(name,n);
+	}
+	void Student::setAge(int a)
+	{
+		age = a;
+	}
+
+	void display()
+	{
+		std::cout << "I am a global function" << std::endl;
+	}
+
+	main.cpp
+
+	
+	#include "Student.h"
+	#include <cstring>
+
+	int main()
+	{
+		Student student;
+		char name[25];
+		int age;
+		std::cout << "Enter Student name: ";
+		std::cin >> name;
+		student.setName(name);
+		std::cout << "Enter Student Age: ";
+		std::cin >> age;
+		student.setAge(age);
+	
+		student.display();
+		display();
+	}
+
+7. cin will not allow spacing when inputting. It would try to put the next word in the variable where cin is used.
+   getline can be used for getting input with spaces
+
+	
+	#include "Student.h"
+	#include <cstring>
+
+	int main()
+	{
+		Student student;
+		char name[25];
+		int age;
+		std::cout << "Enter Student name: ";
+		std::cin.getline(name, 25);
+		student.setName(name);
+		std::cout << "Enter Student Age: ";
+		std::cin >> age;
+		student.setAge(age);
+	
+		student.display();
+		display();
+	}
+
+		

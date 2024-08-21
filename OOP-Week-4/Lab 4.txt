@@ -1,0 +1,108 @@
+Student.h
+
+#include <iostream>
+#include <cstring>
+
+class Student
+{
+private:
+	char* first_name{};
+	char* last_name{};
+	int age;
+	char* dob{};
+public:
+	Student();
+	Student(const char* first_name, const char* last_name, int age, const char* dob);
+	~Student();
+	Student& setValues(const char* first_name, const char* last_name, int age, const char* dob);
+	bool isSimilar(Student& student);
+	void reset();
+	void display();
+};
+
+
+
+Student.cpp
+
+#define _CRT_SECURE_NO_WARNINGS
+#include "Student.h"
+
+Student::Student()
+{
+	reset();
+}
+Student::Student(const char* first_name, const char* last_name, int age, const char* dob)
+{
+	setValues(first_name, last_name, age, dob);
+}
+Student::~Student()
+{
+	delete[] this->first_name;
+	delete[] this->last_name;
+	delete[] this->dob;
+}
+Student& Student::setValues(const char* first_name, const char* last_name, int age, const char* dob)
+{
+	delete[] this->first_name;
+	delete[] this->last_name;
+	delete[] this->dob;
+	
+	reset();
+
+	this->first_name = new char[strlen(first_name) + 1];
+	strcpy(this->first_name, first_name);
+
+	this->last_name = new char[strlen(last_name) + 1];
+	strcpy(this->last_name, last_name);
+
+	this->age = age;
+
+	this->dob = new char[strlen(dob) + 1];
+	strcpy(this->dob, dob);
+
+	return *this;
+}
+bool Student::isSimilar(Student& student)
+{
+	return (strcmp(this->first_name, student.first_name) ==0 && strcmp(this->last_name, student.last_name) == 0 && this->age == student.age && strcmp(this->dob,student.dob) == 0);
+}
+
+void Student::reset()
+{
+	this->first_name = nullptr;
+	this->last_name = nullptr;
+	this->age = 0;
+	this->dob = nullptr;
+}
+void Student::display()
+{
+	std::cout << "First Name: " << this->first_name << std::endl;
+	std::cout << "Last Name: " << this->last_name << std::endl;
+	std::cout << "Age: " << this->age << std::endl;
+	std::cout << "DOB: " << this->dob << std::endl;
+	std::cout << "*******************************" << std::endl;
+}
+
+main.cpp
+
+#include "Student.h"
+
+int main()
+{
+	Student students[] = {
+		Student("Steve", "Jobs", 60, "Jan, 1, 1960"),
+		Student("Bill", "Gates", 70, "Jul, 17, 1950"),
+		Student("Elon", "", 50, "May, 10, 1970"),
+		Student("Warren", "Buffet", 0, "Jan, 1, 1940"),
+		Student("Warren", "Buffet", 0, "Jan, 1, 1940"),
+	};
+
+	for (int i = 0; i < 5; i++)
+	{
+		students[i].display();
+	}
+
+	std::cout <<(students[3].isSimilar(students[4]) ? "Similar" : "Not Similar");
+
+	return 0;
+}

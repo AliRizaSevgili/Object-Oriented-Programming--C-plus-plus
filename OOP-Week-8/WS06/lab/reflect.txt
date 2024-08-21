@@ -1,0 +1,23 @@
+/***********************************************************************
+// OOP244 Workshop #6 Lab
+// Student Name     	: Ali Riza Sevgili
+   Student Number	: 135200228
+   Student Email	: arsevgili@myseneca.ca
+   Date			: 11/5/2023
+   > I have done all the coding by myself and only copied the code that my professor provided to complete my workshops and assignments.
+
+// Version 1.0
+// Author  Fardad Soleimanloo
+// Description
+//
+// Revision History
+// -----------------------------------------------------------
+// Name                 Date            Reason
+***********************************************************************/
+
+
+In order to complete this workshop and milestone, I have mostly studied and practised with overload constructors, defining and using the rule of three, and using istream and ostream operators. Working with several overloaded constructors, particularly extraction and insertion operators, has been my experience.In this workshop, the 'rule of three' was crucial. It all comes down to making sure that everything functions properly whether you duplicate your class or clear it away when it's no longer required. This lessens the likelihood of issues when the programme consumes up memory that it shouldn't, which could cause the computer to lag or even crash.
+
+In my experience, the milestones were rather simpler to follow than the workshop since they provided clear instructions on what needed to be built.I saved time by using the Utils module, which was similar to a small toolbox. It included features I could use again, like one that checked to see if I had the user's number accurately. I did occasionally run into some issues, particularly when switching between utilising the real data and practising my code, but I was able to solve them by including a straightforward method to go back and forth.
+
+As I think back on this experience, I've realised how much I've learnt about the principles and structure of developing quality code, as well as how to carefully solicit and review user input. Seeing my abilities advance makes me happy, and I can't wait to take on the upcoming difficulties.

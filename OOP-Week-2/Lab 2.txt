@@ -1,0 +1,61 @@
+Student.h
+
+#ifndef STUDENT_H
+#define STUDENT_H
+
+namespace sdds
+{
+	struct Student
+	{
+		char name[25];
+		int age;
+	};
+
+	void enterDetails(struct Student* std);
+	void showDetails(struct Student* std);
+}
+
+
+#endif // !STUDENT_H
+
+Student.cpp
+
+#include <iostream>
+#include "Student.h"
+using namespace std;
+
+namespace sdds
+{
+	void showDetails(struct Student* std)
+	{
+		cout << "You entered following details..." << endl;
+		cout << "Name: " << std->name << ", Age: " << std->age << endl;
+	}
+
+	void enterDetails(struct Student* std)
+	{
+		cout << "Enter student name: ";
+		cin >> std->name;
+
+		cout << "Enter student age: ";
+		cin >> std->age;
+	}
+
+}
+
+
+Source.cpp
+
+#include "Student.h"
+#define NUM 3
+using namespace sdds;
+int main()
+{
+	struct Student std[NUM];
+	for (int i = 0; i < NUM; i++)
+	{
+		enterDetails(&std[i]);
+		viewDetails(&std[i]);
+	}
+	return 0;
+}

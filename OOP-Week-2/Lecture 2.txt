@@ -1,0 +1,359 @@
+1. auto can be used to allow c++ to infer the data type based on the initialization value;
+
+	int main()
+	{
+		auto i = 5;
+		cout << i << endl;	
+		return 0;
+	}
+
+	You can use typeid to get the data type;
+
+	#include <iostream>
+	#include <typeinfo>
+	using namespace std;
+
+	int main()
+	{
+		auto i = 5;
+		cout << i << endl;
+		cout << typeid(i).name() << endl;
+
+		return 0;
+	}
+
+2. Definitions and Declarations are used to define and declare. You need to declare before you use.
+
+	Compiler will complain about it.
+
+	int main()
+	{
+		int n1 = 5, n2 = 6;
+		add(5, 6);	
+
+		return 0;
+	}
+
+	void add(int number1, int number2)
+	{
+		cout << number1 + number2 << endl;
+	}
+
+	To solve this issue, declare the function above or at least have its declaration above
+
+	void add(int , int );
+
+	int main()
+	{
+		int n1 = 5, n2 = 6;
+		add(5, 6);
+
+		return 0;
+	}
+
+	void add(int number1, int number2)
+	{
+		cout << number1 + number2 << endl;
+	}
+
+6. Scope is important for memory management
+
+	Block Scope:
+
+	i would be inaccessible
+
+	int main()
+	{
+		for (int i = 0; i < 5; i++)
+		{
+			cout << i << endl;
+		}
+
+		cout << i << endl;
+		return 0;
+	}
+
+	Function Scope
+
+	i cannot be accessible outside the function
+
+	void display()
+	{
+		int i;
+		for (i = 0; i < 5; i++)
+		{
+			cout << i << endl;
+		}
+	}
+
+	int main()
+	{
+		
+		cout << i << endl;
+		return 0;
+	}
+
+7. Function Overloading can be used in c++
+
+	void add(int a, int b)
+	{
+		cout << a<<"+"<<b<<"="<<a + b << endl;
+	}
+	void add(int a, int b, int c)
+	{
+		cout << a << "+" << b <<"+"<<c<<"="<< a + b + c << endl;
+	}
+	int main()
+	{
+		add(4, 5);
+		add(4, 5, 6);
+		return 0;
+	}
+
+8. Arrays can be initialized as well as used in conditional statements
+
+	#include <iostream>
+	using namespace std;
+	int main()
+	{	
+		int myArray[5] = {5, 10, 2, 25, 8};
+		int max = 0;
+
+		for (int i = 0; i < 5; i++)
+		{
+			if (myArray[i] > max)
+			{
+				max = myArray[i];
+			}
+		}
+
+		cout << "Max. number in the array is: " << max << endl;
+
+		return 0;
+	}
+
+9. Passing arrays to functions
+
+	int getMax(int myArray[], int size)
+	{
+		int max = 0;
+		for (int i = 0; i < size; i++)
+		{
+			if (myArray[i] > max)
+			{
+				max = myArray[i];
+			}
+		}
+		return max;
+	}
+
+	int main() 
+	{
+		int myArray[5] = { 1, 12, 300, 14, 5 };
+		cout << "Max: " << getMax(myArray, 5);
+		return 0;
+	}
+
+10. Pointers can be used in arithematic expressions:
+
+	#include <iostream>
+	using namespace std;
+	int main()
+	{
+		int number1 = 7;
+		int number2 = 8;
+		int* ptrNumber1 = &number1;
+		int* ptrNumber2 = &number2;
+ 
+		int result = (*ptrNumber1) + (*ptrNumber2);
+	
+		cout << "Sum of " << *ptrNumber1 << " and " << *ptrNumber2 << " is : "<< result<<endl;
+		
+		return 0;
+	}
+
+11. Pointers can be used in functions
+
+	variables are passed to functions by value
+
+	#include <iostream>
+	using namespace std;
+	void increment(int n)
+	{
+		n = n + 1;
+	}
+	int main()
+	{
+		int n = 7;
+		increment(n);
+		cout << "Result:" << n<<endl;
+		return 0;
+	}
+
+	variables can be passed to functions by reference using pointers
+
+	#include <iostream>
+	using namespace std;
+
+	void increment(int *ptr)
+	{
+	    *ptr = (*ptr) + 1;
+	}
+
+	int main() 
+	{
+	    int n = 7;
+	    increment(&n);
+	    cout << n << endl;
+	    
+	    return 0;
+	}
+
+12. To get the value of the array elements using pointer, we can use the ptr notation
+
+	int main()
+	{
+		int myArray[5] = { 2, 1, 5, 3, 6 };
+		int* ptr = &myArray[0];
+
+		for (int i = 0; i < 5; i++)
+		{
+			cout << "myArray[" << i << "] = " << *(ptr + i) << endl;
+			cout << "Address of myArray[" << i << "] = " << (ptr+i) << endl;
+		}
+
+		return 0;
+	}
+
+13. Passing Arrays to functions
+
+	#include <iostream>
+	using namespace std;
+
+	int sum_elements(int myArray[], int size)
+	{
+		int sum = 0;
+		for (int i = 0; i < 5; i++)
+		{
+			sum = sum + myArray[i];
+		}
+		return sum;
+	}
+
+	int main()
+	{
+		int myArray[5] = { 2, 1, 5, 3, 6 };
+		int* ptr = myArray;
+		cout << sum_elements(myArray, 5);
+		return 0;
+	}
+
+14. Static Memory is held at the load time
+
+	int main()
+	{
+		int number;
+		cout << "Enter a number: ";
+		cin >> number;
+
+		cout <<number;
+		return 0;
+	}
+
+15. Dynamic Memory
+
+	int main()
+	{
+
+		// variable created in stack
+		int number = 7;
+		cout << "Number in stack: " << number << endl;	
+
+		// variable created in heap
+		int* ptr = new int;
+		*ptr = 7;
+		cout << "Number in heap: " << *ptr << endl;
+
+		return 0;
+	}
+
+16. Dynamic Memory for Arrays
+
+	int main()
+	{
+		// arrays created in stack
+		int numbers[5] = {5, 7, 8, 33, 44};
+
+		// arays created in heap
+		int* ptr = new int[5];
+		ptr[0] = 13;
+		ptr[1] = 14;
+		ptr[2] = 15;
+		ptr[3] = 16;
+		ptr[4] = 17;
+
+		return 0;
+	}
+
+17. Dynamic Memory for Dynamic Arrays
+
+	#include <iostream>
+	using namespace std;
+
+	int main()
+	{
+		int size;
+		cout << "Enter the size of the Array: ";
+		cin >> size;
+
+		int* numbersPtr = new int[size];
+		int number;
+		for (int i = 0; i < size; i++)
+		{
+			cout << "Enter element " << i << ": ";
+			cin>>number;
+			*(numbersPtr + i) = number;
+		}
+		cout << "Values entered... " << endl;
+		for (int i = 0; i < size; i++)
+		{
+			cout << "numbersPtr[" << i << "] = " << *(numbersPtr + i) << endl;
+		}
+		return 0;
+	}
+
+18. Memory Leak
+
+	int main()
+	{
+		int* ptr = new int;
+		*ptr = 7;
+		cout << "Ptr: " << *ptr << endl;
+		cout << "Ptr Address: " << ptr << endl;
+		ptr = new int;
+		*ptr = 10;
+
+		cout << "Ptr: " << *ptr << endl;
+		cout << "Ptr Address: " << ptr << endl;
+
+		return 0;
+	}
+
+19. Memory Deallocation
+
+	int main()
+	{
+		int* ptr = new int;
+		*ptr = 7;
+		cout << "Ptr: " << *ptr << endl;
+		cout << "Ptr Address: " << ptr << endl;
+
+		delete ptr;
+		ptr = new int;
+		*ptr = 10;
+
+		cout << "Ptr: " << *ptr << endl;
+		cout << "Ptr Address: " << ptr << endl;
+
+		return 0;
+	}

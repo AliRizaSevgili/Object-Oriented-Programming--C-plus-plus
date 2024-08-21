@@ -1,0 +1,20 @@
+/***********************************************************************
+// OOP244 Workshop #8 lab (part 2): Reflection
+//
+// File  main.cpp
+// Version 1.0
+// Author   Fardad Soleimanloo
+// Description
+//
+// Revision History
+// -----------------------------------------------------------
+// Name                     Date                Reason  
+/* Student Name         : Ali Riza Sevgili
+   Student Number	: 135200228
+   Student Email	: arsevgili@myseneca.ca
+   Date			: 11/19/2023
+
+   "I have done all the coding by myself and only copied the code that my professor provided to complete my workshops and assignments."
+   */
+***********************************************************************/
+In completing the C++ project and related workshop deliverables, I delved into various key concepts, consolidating my understanding of Object-Oriented Programming (OOP) principles. The application of encapsulation, inheritance, and polymorphism was integral to the project's structure, enhancing code modularity and flexibility. The utilization of C++ language features, including virtual functions and dynamic memory allocation, showcased my proficiency in handling complex programming tasks. Memory management became a crucial aspect, especially in dealing with dynamically allocated resources like strings. Throughout the project, challenges surfaced, ranging from debugging intricacies to making informed design decisions. These hurdles provided valuable learning opportunities and honed my problem-solving skills. Additionally, collaborating with a team facilitated a structured approach to communication and task distribution, fostering a collaborative environment. This project served as a significant learning experience, consolidating my C++ skills and offering insights into effective project management. Looking forward, I am eager to continue refining my abilities in areas that presented challenges, ensuring a continuous journey of growth in software development.

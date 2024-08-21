@@ -1,0 +1,74 @@
+/* Student Name         : Ali Riza Sevgili
+   Student Number	: 135200228
+   Student Email	: arsevgili@myseneca.ca
+   Date			: 09/26/2023
+
+   "I have done all the coding by myself and only copied the code that my professor provided to complete my workshops and assignments."
+   */
+
+-REFLECTION PART-
+
+ In this presentation, I would like to explain some vital parts of this workshop: what kind of part of the workshop is hard to figure out, how to handle it, etc.
+
+ To begin with, one of the important things fundamental types of C++ are Integral Types (store data exactly in equivalent binary form and can be signed or unsigned) and Floating Point Types (store data to a specified precision - can store very small and very large values). In this workshop,  using an integral type of bool which is not available in C language, is quite important to achieve our desired result. The bool type stores a logical value: true or false. The '!' operator reverses that value: !true is false and ! false is true. In the below, I demonstrate some bool functions that return bool type logical values true or false in my workshop
+
+ Workshop-2 Part-1:  
+-bool load(Employee& emp);  
+-bool load(); , bool read(char* empName);
+-bool read(int& empNumber);
+-bool read(double& empSalary); 
+
+Workshop-2 Part-2:
+-bool load(const char* filename, const char* partial_postal_code_prefix);
+-bool load(const char* filename);
+
+
+
+Moreover, Static and Dynamic Memory are vital content of this workshop because they are extremely important regarding the performance of our program which runs based on RAM. During the course of its execution, a C++ program has access to both static and dynamic memory. The operating system loads an application's executable into RAM once the user launches it, then hands control to the executable's entry point. Static memory is the memory that the operating system allows for the application at load time. Programming instructions and program data are stored in static memory. Variables and objects within the application share static memory. Dynamic memory is the memory that a program uses while it is running on the operating system.
+The two types of memory are different. While the operating system reserves, allocates and deallocates static memory for an application at load time, it does not do any of these things for dynamic memory until run time.The combination of the keywords new and [n] dynamically allocates contiguous memory for an array of n elements, returning the address of the array's first element. The arrays are dynamically assigned in the following way:
+
+new Type[size] = pointer;
+
+Workshop-2 Part-2 
+....
+....
+....
+namespace sdds {
+	extern FILE* fptr;
+	char code[4]{};
+
+	Population* populations = nullptr; 
+	int popCount = 0; 
+	char g_postalPrefix[4] = "";
+....
+....
+....
+populations = new Population[count];
+....
+....
+
+As you can see, this is an example of my workshop code in regards to allocation on dynamic memory via pointer. The statement populations = new Population[count]; is used for dynamic memory allocation. The count variable determines the size of the population array. This allows the program to create arrays of different sizes at runtime.
+
+In addition,  Dynamic Deallocation is a mandatory feature in order to avoid possible memory leaks in our code, that's why it should be used after every new memory allocation to set free dynamic memory. Deallocating memory assigned by the matching new[] operator is accomplished by the keyword delete, [], and the location of a dynamically allocated area of memory.
+
+Workshop-2 Part-2 
+
+	void deallocateMemory() {
+		delete[] populations;
+		populations = nullptr;
+	}
+}
+
+For example, In the main funciton deallocateMemory function is used for deallocating the dynamically allocated memory. 
+
+int main() {
+    char code[4]{};
+    while (getPostalCode(code)) {
+        if (load("PCpopulationsComplete.csv", code)) {
+            display();
+        }
+        deallocateMemory();
+    }
+    return 0;
+ 
+To sum up, as ı mentioned in above, most of my time was spent on those features of the C++ language regarding Workshop-2. 

@@ -1,0 +1,451 @@
+1. In the previous lecture we talked about class and its privacy
+
+	Student.h
+
+	class Student
+	{
+	private:
+		char* name;
+		int age;
+	public:
+		char* getName();
+		int getAge();
+		void setValues(const char*, int);
+		void display();
+	};	
+
+
+	Student.cpp
+
+	#define _CRT_SECURE_NO_WARNINGS
+	#include "Student.h"
+	#include <cstring>
+	#include <iostream>
+
+	char* Student::getName()
+	{
+		return name;
+	}
+	int Student::getAge()
+	{
+		return age;
+	}
+	void Student::setValues(const char* n, int a)
+	{
+		name = new char[strlen(n) + 1];
+		strcpy(name, n);
+
+		age = a;
+	}
+
+	void Student::display()
+	{
+		std::cout << "Name: " << name << std::endl;
+		std::cout << "Age: " << age << std::endl;
+	}
+
+	main.cpp
+
+	#include "Student.h"
+	int main()
+	{
+		Student student;
+		student.setValues("John", 22);
+		student.display();
+		return 0;
+	}
+
+2. The above program would break if display method is called before setting the initial values of the data members.
+
+	main.cpp
+
+	#include "Student.h"
+	int main()
+	{
+		Student student;
+		student.display();
+		student.setValues("John", 22);
+
+		return 0;
+	}
+
+3. This is where the concept of Constructors come into play. The constructor is a special member function that an object invokes at creation time
+
+	Student.h
+
+	class Student
+	{
+	private:
+		char* name;
+		int age;
+	public:
+		Student();
+		char* getName();
+		int getAge();
+		void setValues(const char*, int);
+		void display();
+	};
+	
+	Student.cpp
+
+	#define _CRT_SECURE_NO_WARNINGS
+	#include "Student.h"
+	#include <cstring>
+	#include <iostream>
+
+	Student::Student()
+	{
+		name = new char[8];
+		strcpy(name, "Default");
+		age = 0;
+	}
+	char* Student::getName()
+	{
+		return name;
+	}
+	int Student::getAge()
+	{
+		return age;
+	}
+	void Student::setValues(const char* n, int a)
+	{
+		name = new char[strlen(n) + 1];
+		strcpy(name, n);
+
+		age = a;
+	}
+
+	void Student::display()
+	{
+		std::cout << "Name: " << name << std::endl;
+		std::cout << "Age: " << age << std::endl;
+	}
+
+4. We can also use parameterized Constructors.
+
+	Student.h
+
+	Student(const char*, int);
+
+	Student.cpp
+
+	Student::Student(const char* n, int a)
+	{
+		name = new char[strlen(n) + 1];
+		strcpy(name, n);
+
+		age = a;
+	}
+
+	main.cpp
+
+	#include "Student.h"
+	int main()
+	{
+		Student student = Student("John", 22);
+		student.display();
+
+		return 0;
+	}
+		
+5. Copying values of private members to another class's private members and using this operator
+
+	Student.h
+
+	#include <iostream>
+	class Student
+	{
+	private:
+		char* name;
+		int age;
+	public:
+		Student();
+		Student(const char*, int);
+		char* getName();
+		int getAge();
+		void setValues(const char*, int);
+		void display();
+		void copyFrom(Student&);
+	};
+
+	Student.cpp
+	
+	#define _CRT_SECURE_NO_WARNINGS
+	#include "Student.h"
+	#include <cstring>
+
+	Student::Student()
+	{
+		this->name = new char[8];
+		strcpy(this->name, "Default");
+		this->age = 0;
+	}
+	Student::Student(const char* n, int a)
+	{
+		this->name = new char[strlen(n) + 1];
+		strcpy(this->name, n);
+
+		this->age = a;
+	}
+	char* Student::getName()
+	{
+		return this->name;
+	}
+	int Student::getAge()
+	{
+		return this->age;
+	}
+	void Student::setValues(const char* n, int a)
+	{
+		this->name = new char[strlen(n) + 1];
+		strcpy(this->name, n);
+
+		this->age = a;
+	}
+
+	void Student::display()
+	{
+		std::cout << "Name: " << this->name << std::endl;
+		std::cout << "Age: " << this->age << std::endl;
+	}
+
+	void Student::copyFrom(Student& student)
+	{
+		this->age = student.age;
+
+		for (int i = 0; i < strlen(this->name); i++)
+		{
+			this->name[i] = student.name[i];
+		}
+	}	
+
+	main.cpp
+
+	#include "Student.h"
+	int main()
+	{
+		Student student = Student("John", 22);
+		std::cout << "First Object" << std::endl;
+		student.display();
+	
+		Student steve = Student("Steve", 88);
+		std::cout << "Object before Copying" << std::endl;
+		steve.display();
+
+		steve.copyFrom(student);
+		std::cout << "Copied Object" << std::endl;
+		steve.display();
+
+		return 0;
+	}
+
+6. Destructors : Complete encapsulation also requires a mechanism for tidying up at the end of an object's lifetime.  An object with dynamically allocated memory needs to deallocate that memory before going out of scope.  An object that has written data to a file needs to flush the file's buffer and close the file before going out of scope. 
+
+	Student.h
+
+	#include <iostream>
+	class Student
+	{
+	private:
+		char* name;
+		int age;
+	public:
+		Student();
+		Student(const char*, int);
+		char* getName();
+		int getAge();
+		void setValues(const char*, int);
+		void display();
+		void copyFrom(Student&);
+		~Student();
+	};
+
+
+	Student.cpp
+
+	#define _CRT_SECURE_NO_WARNINGS
+	#include "Student.h"
+	#include <cstring>
+
+	Student::Student()
+	{
+		this->name = new char[8];
+		strcpy(this->name, "Default");
+		this->age = 0;
+	}
+	Student::Student(const char* n, int a)
+	{
+		this->name = new char[strlen(n) + 1];
+		strcpy(this->name, n);
+
+		this->age = a;
+	}
+	char* Student::getName()
+	{
+		return this->name;
+	}
+	int Student::getAge()
+	{
+		return this->age;
+	}
+	void Student::setValues(const char* n, int a)
+	{
+		if (strlen(this->name) <= 0)
+		{
+			this->name = new char[strlen(n) + 1];
+		}
+	
+		strcpy(this->name, n);
+		this->age = a;
+	}	
+
+	void Student::display()
+	{
+		std::cout << "Name: " << this->name << std::endl;
+		std::cout << "Age: " << this->age << std::endl;
+	}
+
+	void Student::copyFrom(Student & student)
+	{
+		this->age = student.age;
+		for (int i = 0; i < strlen(this->name); i++)
+		{
+			this->name[i] = student.name[i];
+		}
+	}	
+	Student::~Student()
+	{
+		delete[] this->name;
+		this->name = nullptr;
+	}	
+
+	main.cpp
+	
+	#include "Student.h"
+	int main()
+	{
+		Student student = Student("John", 22);
+		std::cout << "First Object" << std::endl;
+		student.display();
+
+		Student steve = Student("Steve", 88);
+		std::cout << "Object before Copying" << std::endl;
+		steve.display();
+
+		/*steve.copyFrom(student);
+		std::cout << "Copied Object" << std::endl;
+		steve.display();*/
+	
+		return 0;
+	}
+
+7. Objects with Arrays
+
+	Student.h
+
+	#include <iostream>
+	class Student
+	{
+	private:
+		char* name;
+		int age;
+	public:
+		Student();
+		Student(const char*, int);
+		char* getName();
+		int getAge();
+		void setValues(const char*, int);
+		void display();
+		void copyFrom(Student&);
+		~Student();
+	};
+
+	Student.cpp
+
+	#define _CRT_SECURE_NO_WARNINGS
+	#include "Student.h"
+	#include <cstring>
+
+	Student::Student()
+	{
+		std::cout << "Constructor called..." << std::endl;
+		this->name = new char[8];
+		strcpy(this->name, "Default");
+		this->age = 0;
+	}
+	Student::Student(const char* n, int a)
+	{
+		this->name = new char[strlen(n) + 1];
+		strcpy(this->name, n);
+
+		this->age = a;
+	}
+	char* Student::getName()
+	{
+		return this->name;
+	}
+	int Student::getAge()
+	{
+		return this->age;
+	}
+	void Student::setValues(const char* n, int a)
+	{
+		if (strlen(this->name) <= 0)
+		{
+			this->name = new char[strlen(n) + 1];
+		}
+	
+		strcpy(this->name, n);
+		this->age = a;
+	}
+
+	void Student::display()
+	{
+		std::cout << "Name: " << this->name << std::endl;
+		std::cout << "Age: " << this->age << std::endl;
+	}
+
+	void Student::copyFrom(Student& student)
+	{
+		this->age = student.age;
+		for (int i = 0; i < strlen(this->name); i++)
+		{
+			this->name[i] = student.name[i];
+		}
+	}	
+	Student::~Student()
+	{
+		std::cout << "Destructor called..." << std::endl;
+		if (this->name)
+		{
+			delete[] this->name;
+			this->name = nullptr;
+		}
+	
+	}
+
+	main.cpp
+
+	#include "Student.h"
+	int main()
+	{
+		Student students[3] = {};
+		students[0].setValues("John", 22);
+		students[1].setValues("Steve", 55);
+		students[2].setValues("Bill", 66);
+
+		for (int i = 0; i < 3; i++)
+		{
+			students[i].display();
+		}
+
+		return 0;
+	}
+
+For parameterized constructor in Arrays
+
+	Student students[3] = {
+		Student("Steve", 55),
+		Student("Elon", 45),
+		Student("John", 22),
+	};
